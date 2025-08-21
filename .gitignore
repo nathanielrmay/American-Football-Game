@@ -1,0 +1,12 @@
+/site/
+/.private/
+
+# AI-related files and directories
+/prompts/
+aider.yaml.conf
+.aider.chat.history.md
+.aider.input.history
+
+# IntelliJ IDEA files
+.idea/
+*.iml

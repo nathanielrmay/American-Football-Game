@@ -1,0 +1,9 @@
+site_name: Football Sim
+theme:
+  name: windmill-dark
+
+
+plugins:
+  - search
+  - awesome-pages
+
