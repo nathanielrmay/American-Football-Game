@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+  
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    
+    
+    <link rel="shortcut icon" href="../../img/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <title>Feature Catalog - Football Sim</title>
+    <link href="../../css/bootstrap-3.3.7.min.css" rel="stylesheet">
+    <link href="../../css/font-awesome-4.7.0.css" rel="stylesheet">
+    <link href="../../css/base.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/highlight.css">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="../../js/jquery-3.2.1.min.js"></script>
+    <script src="../../js/bootstrap-3.3.7.min.js"></script>
+    <script src="../../js/highlight.pack.js"></script>
+    
+    <base target="_top">
+    <script>
+      var base_url = '../..';
+      var is_top_frame = false;
+        
+        var pageToc = [
+          {title: "Feature Catalog", url: "#_top", children: [
+              {title: "MoSCoW Prioritization", url: "#moscow-prioritization" },
+              {title: "Feature Descriptions", url: "#feature-descriptions" },
+          ]},
+        ];
+
+    </script>
+    <script src="../../js/base.js"></script>
+      <script src="../../search/main.js"></script> 
+</head>
+
+<body>
+<script>
+if (is_top_frame) { $('body').addClass('wm-top-page'); }
+</script>
+
+
+
+<div class="container-fluid wm-page-content">
+  <a name="_top"></a>
+    
+
+    
+    
+      
+    
+
+  <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
+    
+    <div class="wm-article-nav pull-right">
+      <a href="../glossary/" class="btn btn-xs btn-default pull-right">
+        Next
+        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+      </a>
+      <a href="../glossary/" class="btn btn-xs btn-link">
+        Glossary of Terms
+      </a>
+    </div>
+    
+    <div class="wm-article-nav">
+      <a href="../../project/milestones/milestone_template/" class="btn btn-xs btn-default pull-left">
+        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        Previous</a><a href="../../project/milestones/milestone_template/" class="btn btn-xs btn-link">
+        Milestone X: [Milestone Title]
+      </a>
+    </div>
+    
+  </div>
+
+    
+
+    <h1 id="feature-catalog">Feature Catalog</h1>
+<p>This document categorizes features into a MoSCoW matrix to guide development priorities and provides detailed descriptions of key game systems.</p>
+<h2 id="moscow-prioritization">MoSCoW Prioritization</h2>
+<p>This section uses the MoSCoW method (Must-have, Should-have, Could-have, Won't-have) to prioritize features for the Minimum Viable Product (MVP) and beyond.</p>
+<h3 id="must-have-for-mvp">Must Have (for MVP)</h3>
+<p>These features are non-negotiable for the first playable version. The game is not functional without them.</p>
+<ul>
+<li><strong>Core Simulation Engine</strong>: Ability to simulate a single play, a drive, and a full game, producing text-based logs and box scores.</li>
+<li><strong>Data-Driven Characters</strong>: <code>Individual</code> and <code>Player</code> models with attributes that directly influence simulation outcomes.</li>
+<li><strong>Simplified League Structure</strong>: A single, functional league with a generated schedule and a championship game.</li>
+<li><strong>Entity Generation</strong>: Logic to create new players and teams to populate the world, driven by <code>Archetype</code> and <code>Generation_Config</code> models.</li>
+<li><strong>Simplified Playbook System</strong>: Pre-set plays are used by AI coaches; no user-facing play editor.</li>
+<li><strong>Basic Financial Reporting</strong>: Generation of simple team financial reports.</li>
+<li><strong>Basic Developer Interface</strong>: A functional, likely command-line, interface to run simulations and browse NPCs.</li>
+<li><strong>World &amp; Economy Foundation</strong>: A functioning <code>World</code> model with a cascading economy (<code>Country</code>, <code>State</code>, <code>City</code>) to provide context.</li>
+</ul>
+<h3 id="should-have">Should Have</h3>
+<p>Important features that are not essential for the initial MVP but should be prioritized immediately after.</p>
+<ul>
+<li><strong>Advanced Playbook System</strong>: A user-facing tool to create and edit detailed plays and formations.</li>
+<li><strong>Detailed Financial Model</strong>: Team budgets, player salaries, revenue from tickets and marketing, and operational expenses.</li>
+<li><strong>Player Progression &amp; Aging</strong>: A system for player attributes to develop and decline over their careers.</li>
+<li><strong>Core Off-Season Logic</strong>: Implementation of key off-season phases like player retirement and new player drafts.</li>
+<li><strong>LLM-Powered Narrative Engine</strong>: Use of an LLM to generate rich narrative content, including game summaries, player news (awards, injuries), dynamic rivalries, media interactions, and RPG-centric events.</li>
+<li><strong>Character Life-Sim</strong>: A system for managing the playable character's personal life, including relationships, health, and stress, with cascading effects on job performance.</li>
+<li><strong>Graphical User Interface (GUI)</strong>: A full graphical interface for team and league management.</li>
+<li><strong>Asynchronous Multiplayer</strong>: A "league hosting" service where multiple users manage teams in the same game world.</li>
+<li><strong>Advanced Scouting System</strong>: Detailed scouting reports, combine data, and discovery of hidden player potential.</li>
+<li><strong>In-depth Staff Roles</strong>: Hiring and managing of coaches, coordinators, and scouts who have their own attributes.</li>
+</ul>
+<h3 id="could-have">Could Have</h3>
+<p>Desirable features that would improve the game but are not a priority. These can be added in later versions if time permits.</p>
+<ul>
+<li><strong>Historical Modes</strong>: Ability to start simulations in past eras with historical data.</li>
+<li><strong>Generational Play</strong>: Ability to continue the game as the playable character's offspring after death or retirement.</li>
+</ul>
+<h3 id="wont-have-for-now">Won't Have (For Now)</h3>
+<p>Features explicitly excluded to prevent scope creep and maintain focus.</p>
+<ul>
+<li><strong>Real-time 3D Play Visualization</strong>: Gameplay will be presented through text and statistics, not a 3D engine like Madden.</li>
+<li><strong>Synchronous Multiplayer</strong>: Multiplayer will not be real-time, head-to-head gameplay.</li>
+<li><strong>Official Licensing</strong>: The game will use fictional players, teams, and leagues.</li>
+</ul>
+<h2 id="feature-descriptions">Feature Descriptions</h2>
+<p>This section provides more detailed outlines for major features and game systems.</p>
+<h3 id="npc-character-roles">NPC &amp; Character Roles</h3>
+<p>The world will be populated by a variety of Non-Player Characters (NPCs), each with their own attributes, personalities, and roles. All NPCs are built on the base <code>Individual</code> model.</p>
+<h4 id="team-personnel">Team Personnel</h4>
+<ul>
+<li><strong>Players</strong>: The athletes who play in the games. They have detailed physical, mental, and skill-based attributes.</li>
+<li><strong>Head Coach</strong>: Manages the coaching staff and has ultimate authority on game-day strategy.</li>
+<li><strong>Offensive/Defensive/Special Teams Coordinators</strong>: Specialized coaches responsible for their respective phases of the game. Their schemes and play-calling tendencies influence team performance.</li>
+<li><strong>General Manager</strong>: Responsible for player contracts, trades, and drafting. This is a potential role for the playable character.</li>
+<li><strong>Team Owner</strong>: The ultimate authority for the team. Sets budgets, long-term goals, and can hire/fire the GM. This is another potential role for the playable character.</li>
+<li><strong>Scouts</strong>: Evaluate talent from other leagues and in the upcoming draft class.</li>
+<li><strong>Medical Staff</strong>: Manage player injuries and rehabilitation.</li>
+</ul>
+<h4 id="external-world-npcs">External World NPCs</h4>
+<ul>
+<li><strong>Agents</strong>: Represent players during contract negotiations.</li>
+<li><strong>Media Personnel</strong>: Journalists and reporters who write stories, conduct interviews, and influence public perception.</li>
+<li><strong>Family Members</strong>: Spouses, children, and other relatives who are part of the player character's life-sim narrative.</li>
+</ul>
+
+  <br>
+    
+
+    
+    
+      
+    
+
+  <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
+    
+    <div class="wm-article-nav pull-right">
+      <a href="../glossary/" class="btn btn-xs btn-default pull-right">
+        Next
+        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+      </a>
+      <a href="../glossary/" class="btn btn-xs btn-link">
+        Glossary of Terms
+      </a>
+    </div>
+    
+    <div class="wm-article-nav">
+      <a href="../../project/milestones/milestone_template/" class="btn btn-xs btn-default pull-left">
+        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        Previous</a><a href="../../project/milestones/milestone_template/" class="btn btn-xs btn-link">
+        Milestone X: [Milestone Title]
+      </a>
+    </div>
+    
+  </div>
+
+    <br>
+</div>
+
+<footer class="col-md-12 wm-page-content">
+  <p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a> using <a href="None">Windmill Dark</a> theme by None (noraj).</p>
+</footer>
+
+</body>
+</html>

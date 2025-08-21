@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+  
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    
+    
+    <link rel="shortcut icon" href="../../img/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <title>Football Simulation Game - Data Models - Football Sim</title>
+    <link href="../../css/bootstrap-3.3.7.min.css" rel="stylesheet">
+    <link href="../../css/font-awesome-4.7.0.css" rel="stylesheet">
+    <link href="../../css/base.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/highlight.css">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="../../js/jquery-3.2.1.min.js"></script>
+    <script src="../../js/bootstrap-3.3.7.min.js"></script>
+    <script src="../../js/highlight.pack.js"></script>
+    
+    <base target="_top">
+    <script>
+      var base_url = '../..';
+      var is_top_frame = false;
+        
+        var pageToc = [
+          {title: "Football Simulation Game - Data Models", url: "#_top", children: [
+              {title: "Table of Contents", url: "#table-of-contents" },
+              {title: "Core World \u0026amp; System Models", url: "#core-world-system-models" },
+              {title: "User \u0026amp; Access Control Models", url: "#user-access-control-models" },
+              {title: "Geographic Models", url: "#geographic-models" },
+              {title: "League \u0026amp; Competition Models", url: "#league-competition-models" },
+              {title: "Team \u0026amp; Organization Models", url: "#team-organization-models" },
+              {title: "Entity Generation Models", url: "#entity-generation-models" },
+              {title: "People \u0026amp; Character Models", url: "#people-character-models" },
+              {title: "Personnel, Contracts \u0026amp; Staff Models", url: "#personnel-contracts-staff-models" },
+              {title: "Game \u0026amp; Simulation Models", url: "#game-simulation-models" },
+          ]},
+        ];
+
+    </script>
+    <script src="../../js/base.js"></script>
+      <script src="../../search/main.js"></script> 
+</head>
+
+<body>
+<script>
+if (is_top_frame) { $('body').addClass('wm-top-page'); }
+</script>
+
+
+
+<div class="container-fluid wm-page-content">
+  <a name="_top"></a>
+    
+
+    
+    
+      
+    
+
+  <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
+    
+    <div class="wm-article-nav pull-right">
+      <a href="../technical_info/" class="btn btn-xs btn-default pull-right">
+        Next
+        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+      </a>
+      <a href="../technical_info/" class="btn btn-xs btn-link">
+        Technical info
+      </a>
+    </div>
+    
+    <div class="wm-article-nav">
+      <a href="../architecture/" class="btn btn-xs btn-default pull-left">
+        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        Previous</a><a href="../architecture/" class="btn btn-xs btn-link">
+        Architecture Overview
+      </a>
+    </div>
+    
+  </div>
+
+    
+
+    <h1 id="football-simulation-game-data-models">Football Simulation Game - Data Models</h1>
+<p><strong>MAINTENANCE NOTE</strong>: This is the technical source of truth for the database schema. Any changes made to the tables in this document <em>must</em> be reflected conceptually in its non-technical counterpart, <code>plan/10_data_model.min.md</code>, to keep both documents synchronized.</p>
+<h2 id="table-of-contents">Table of Contents</h2>
+<ul>
+<li><a href="#core-world--system-models">Core World &amp; System Models</a></li>
+<li><a href="#world-model">World Model</a></li>
+<li><a href="#relationship-model">Relationship Model</a></li>
+<li><a href="#user--access-control-models">User &amp; Access Control Models</a></li>
+<li><a href="#user-model">User Model</a></li>
+<li><a href="#role-model">Role Model</a></li>
+<li><a href="#user-world-role-model">User World Role Model</a></li>
+<li><a href="#geographic-models">Geographic Models</a></li>
+<li><a href="#country-model">Country Model</a></li>
+<li><a href="#state-model">State Model</a></li>
+<li><a href="#city-model">City Model</a></li>
+<li><a href="#league--competition-models">League &amp; Competition Models</a></li>
+<li><a href="#league-model">League Model</a></li>
+<li><a href="#league-standings-model">League Standings Model</a></li>
+<li><a href="#team--organization-models">Team &amp; Organization Models</a></li>
+<li><a href="#team-model">Team Model</a></li>
+<li><a href="#playbook-model">Playbook Model</a></li>
+<li><a href="#play-design-model">Play Design Model</a></li>
+<li><a href="#stadium-model">Stadium Model</a></li>
+<li><a href="#entity-generation-models">Entity Generation Models</a></li>
+<li><a href="#archetype-model">Archetype Model</a></li>
+<li><a href="#generation-configuration-model">Generation Configuration Model</a></li>
+<li><a href="#people--character-models">People &amp; Character Models</a></li>
+<li><a href="#individual-model">Individual Model</a></li>
+<li><a href="#player-position-model">Player Position Model</a></li>
+<li><a href="#player-model">Player Model</a></li>
+<li><a href="#personnel-contracts--staff-models">Personnel, Contracts &amp; Staff Models</a></li>
+<li><a href="#player-contract-model">Player Contract Model</a></li>
+<li><a href="#player-contract-year-model">Player Contract Year Model</a></li>
+<li><a href="#staff-role-type-model">Staff Role Type Model</a></li>
+<li><a href="#staff-model">Staff Model</a></li>
+<li><a href="#financial-advisor-attributes-model">Financial Advisor Attributes Model</a></li>
+<li><a href="#legal-advisor-attributes-model">Legal Advisor Attributes Model</a></li>
+<li><a href="#personal-wellness-attributes-model">Personal Wellness Attributes Model</a></li>
+<li><a href="#game--simulation-models">Game &amp; Simulation Models</a></li>
+<li><a href="#game-model">Game Model</a></li>
+<li><a href="#game-state-model">Game State Model</a></li>
+<li><a href="#game-plan-model">Game Plan Model</a></li>
+<li><a href="#play-model">Play Model</a></li>
+<li><a href="#player-game-stats-model">Player Game Stats Model</a></li>
+</ul>
+<hr />
+<h2 id="core-world-system-models">Core World &amp; System Models</h2>
+<p>These models define the foundational elements of the simulation universe. All data resides in a single Postgres database.</p>
+<h3 id="world-model">World Model</h3>
+<p>The World table represents a single game universe/save file. There is only one world record per game instance, serving as the root container for all game data and global settings.</p>
+<pre><code class="language-sql">CREATE TABLE world (
+    id INTEGER PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    created_date TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    last_played_date TIMESTAMPTZ,
+    current_season INTEGER NOT NULL DEFAULT 1,
+    current_week INTEGER NOT NULL DEFAULT 1,
+    start_year INTEGER NOT NULL,
+    global_growth_rate DECIMAL(4,3) NOT NULL DEFAULT 1.000,
+    sim_speed_factor DECIMAL(3,2) NOT NULL DEFAULT 1.00,
+    randomness_factor DECIMAL(3,2) NOT NULL DEFAULT 1.00
+);
+</code></pre>
+<p><em>(Note: I have updated DATETIME to TIMESTAMPTZ for better timezone handling in Postgres, reflecting the <code>user.preferred_timezone</code> field)</em></p>
+<h4 id="constraintrelationship-notes">Constraint/Relationship notes</h4>
+<ul>
+<li><strong>Primary Key</strong>: <code>id</code> - Single record per game instance</li>
+<li><strong>Global Growth Rate</strong>: Base economic growth rate applied worldwide (1.000 = no growth, 1.020 = 2% growth)</li>
+<li><strong>Simulation Settings</strong>:</li>
+<li><code>sim_speed_factor</code>: Multiplier for adjusting simulation speed (e.g., for UI).</li>
+<li><code>randomness_factor</code>: A global modifier for random events in the simulation.</li>
+<li><strong>Economy Modifiers</strong>: Will be stored in separate <code>world_economy_modifiers</code> table to allow flexible configuration</li>
+<li><strong>Global Settings</strong>: Additional game-wide settings will be stored in separate <code>world_settings</code> table for extensibility</li>
+</ul>
+<h3 id="relationship-model">Relationship Model</h3>
+<p>The Relationship table is a generic, polymorphic model designed to track the strength and type of connection between any two entities in the game. This can represent person-to-person friendships, team rivalries, player-to-team loyalty, etc.</p>
+<pre><code class="language-sql">CREATE TABLE relationship (
+    entity1_id INTEGER NOT NULL,
+    entity1_type VARCHAR(50) NOT NULL,
+    entity2_id INTEGER NOT NULL,
+    entity2_type VARCHAR(50) NOT NULL,
+    relationship_type VARCHAR(50) NOT NULL,
+    strength INTEGER NOT NULL DEFAULT 0,
+    created_date TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_date TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (entity1_id, entity1_type, entity2_id, entity2_type, relationship_type)
+);
+</code></pre>
+<h4 id="constraintrelationship-notes_1">Constraint/Relationship notes</h4>
+<ul>
+<li><strong>Composite Primary Key</strong>: Ensures a unique relationship type between any two specific entities.</li>
+<li><strong>Polymorphic Design</strong>:</li>
+<li><code>entity1_id</code> / <code>entity2_id</code>: The ID of the entity.</li>
+<li><code>entity1_type</code> / <code>entity2_type</code>: The name of the table the ID belongs to (e.g., 'individual', 'team', 'league').</li>
+<li><strong>Relationship Type</strong>: A descriptor for the relationship (e.g., 'friendship', 'rivalry', 'familial_sibling', 'employment').</li>
+<li><strong>Strength</strong>: A numeric counter representing the quality of the relationship. Can be positive or negative (e.g., -100 to 100).</li>
+<li><strong>Direction</strong>: For non-symmetrical relationships (like 'employment'), <code>entity1</code> can be considered the source/subject and <code>entity2</code> the target/object. For symmetrical relationships ('friendship'), the order is not significant, and applications should check for both permutations if necessary.</li>
+</ul>
+<hr />
+<h2 id="user-access-control-models">User &amp; Access Control Models</h2>
+<p>These models contain all tables related to the application users and their permissions.</p>
+<h3 id="user-model">User Model</h3>
+<p>The User table stores basic information and preferences for players of the game.</p>
+<pre><code class="language-sql">CREATE TABLE &quot;user&quot; (
+    id INTEGER PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL,
+    display_name VARCHAR(100),
+    created_date TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    last_login_date TIMESTAMPTZ,
+    is_active BOOLEAN NOT NULL DEFAULT TRUE,
+    preferred_timezone VARCHAR(50) DEFAULT 'UTC'
+);
+</code></pre>
+<p><em>(Note: <code>user</code> is a reserved keyword in SQL, so it's quoted as <code>"user"</code> for safety. DATETIME changed to TIMESTAMPTZ.)</em></p>
+<h4 id="constraintrelationship-notes_2">Constraint/Relationship notes</h4>
+<ul>
+<li><strong>Primary Key</strong>: <code>id</code> - Unique identifier for each user</li>
+<li><strong>Unique Constraints</strong>: <code>username</code> and <code>email</code> must be unique across all users</li>
+<li><strong>Authentication</strong>: Password stored as hash for security</li>
+<li><strong>Display Name</strong>: Optional friendly name for UI display</li>
+<li><strong>Activity Tracking</strong>: Last login and active status for user management</li>
+<li><strong>Timezone</strong>: User's preferred timezone for date/time display</li>
+<li><strong>Future Expansion</strong>: Additional user preferences and settings will be stored in separate <code>user_preferences</code> table</li>
+<li><strong>Game Characters</strong>: User's in-game characters/personas will be stored in separate <code>character</code> table linking to this user</li>
+</ul>
+<h3 id="role-model">Role Model</h3>
+<p>The Role table defines a standardized list of permission levels a user can have within a game world.</p>
+<pre><code class="language-sql">CREATE TABLE role (
+    id INTEGER PRIMARY KEY,
+    name VARCHAR(50) NOT NULL UNIQUE,
+    description TEXT
+);
+</code></pre>
+<h4 id="constraintrelationship-notes_3">Constraint/Relationship notes</h4>
+<ul>
+<li><strong>Primary Key</strong>: <code>id</code> - Unique identifier for the role.</li>
+<li><code>name</code>: The machine-friendly name of the role (e.g., 'commissioner', 'owner', 'observer').</li>
+<li><code>description</code>: A user-friendly explanation of what the role entails.</li>
+</ul>
+<h3 id="user-world-role-model">User World Role Model</h3>
+<p>This table links a <code>user</code> to a <code>world</code> and assigns them a specific <code>role</code>, creating a proper relationship. This is crucial for managing permissions, such as who can advance the simulation clock or edit league parameters.</p>
+<pre><code class="language-sql">CREATE TABLE user_world_role (
+    user_id INTEGER NOT NULL,
+    world_id INTEGER NOT NULL,
+    role_id INTEGER NOT NULL,
+    character_individual_id INTEGER,
+    PRIMARY KEY (user_id, world_id),
+    FOREIGN KEY (user_id) REFERENCES &quot;user&quot;(id) ON DELETE CASCADE,
+    FOREIGN KEY (world_id) REFERENCES world(id) ON DELETE CASCADE,
+    FOREIGN KEY (role_id) REFERENCES role(id),
+    FOREIGN KEY (character_individual_id) REFERENCES individual(id) ON DELETE SET NULL
+);
+</code></pre>
+<h4 id="constraintrelationship-notes_4">Constraint/Relationship notes</h4>
+<ul>
+<li><strong>Composite Primary Key</strong>: Ensures a user has only one primary role per world.</li>
+<li><strong>Foreign Keys</strong>: Links the user account, game world, and the user's specific role for that world.</li>
+<li><code>character_individual_id</code>: If the user has a playable character in this world (like an owner or GM), this links to their corresponding record in the <code>individual</code> table.</li>
+</ul>
+<hr />
+<h2 id="geographic-models">Geographic Models</h2>
+<h3 id="country-model">Country Model</h3>
+<p>The Country table represents different nations in the game world. Each country has economic, climate, and cultural characteristics that affect gameplay within that region.</p>
+<pre><code class="language-sql">CREATE TABLE country (
+    id INTEGER PRIMARY KEY,
+    world_id INTEGER NOT NULL,
+    name VARCHAR(100) NOT NULL UNIQUE,
+    code VARCHAR(3) NOT NULL UNIQUE,
+    wealth_level DECIMAL(5,2) NOT NULL DEFAULT 1.00,
+    avg_temperature INTEGER NOT NULL,
+    football_interest_modifier DECIMAL(3,2) NOT NULL DEFAULT 1.00,
+    economic_stability DECIMAL(3,2) NOT NULL DEFAULT 1.00,
+    population INTEGER,
+    currency_code VARCHAR(3) NOT NULL DEFAULT 'USD',
+    growth_rate DECIMAL(4,3) NOT NULL DEFAULT 1.000,
+    created_date TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (world_id) REFERENCES world(id) ON DELETE CASCADE
+);
+</code></pre>
+<h4 id="constraintrelationship-notes_5">Constraint/Relationship notes</h4>
+<ul>
+<li><strong>Primary Key</strong>: <code>id</code> - Unique identifier for each country</li>
+<li><strong>Foreign Key</strong>: <code>world_id</code> - Links to the world this country exists in</li>
+<li><strong>Unique Constraints</strong>: <code>name</code> and <code>code</code> must be unique within a world</li>
+<li><strong>Wealth Level</strong>: Multiplier affecting economic activities (1.00 = baseline, &gt;1.00 = wealthier, &lt;1.00 = poorer)</li>
+<li><strong>Temperature</strong>: Average temperature in Fahrenheit, affects player preferences and costs</li>
+<li><strong>Football Interest</strong>: Modifier for how popular football is in this country (affects attendance, media coverage, etc.)</li>
+<li><strong>Economic Stability</strong>: Affects contract negotiations, sponsorship deals, and market volatility</li>
+<li><strong>Population</strong>: Total population, affects potential fan base and player pool</li>
+<li><strong>Currency</strong>: Local currency code for economic calculations</li>
+<li><strong>Growth Rate</strong>: Annual economic growth rate modifier, which combines with the <code>world.global_growth_rate</code>.</li>
+<li><strong>Growth Rate Calculation</strong>: The effective growth rate for a country is calculated by combining the world's global growth rate with the country's growth rate modifier (e.g., <code>effective_country_growth = world.global_growth_rate * country.growth_rate</code>).</li>
+<li><strong>Additional Modifiers</strong>: Country-specific gameplay modifiers will be stored in separate <code>country_modifiers</code> table for flexibility</li>
+</ul>
+<h3 id="state-model">State Model</h3>
+<p>The State table represents states/provinces within countries. Each state has its own economic and cultural characteristics that modify the base country values, creating regional variation within nations.</p>
+<pre><code class="language-sql">CREATE TABLE state (
+    id INTEGER PRIMARY KEY,
+    country_id INTEGER NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    code VARCHAR(10) NOT NULL,
+    wealth_modifier DECIMAL(3,2) NOT NULL DEFAULT 1.00,
+    football_interest_modifier DECIMAL(3,2) NOT NULL DEFAULT 1.00,
+    economic_stability_modifier DECIMAL(3,2) NOT NULL DEFAULT 1.00,
+    population INTEGER,
+    avg_temperature_modifier INTEGER NOT NULL DEFAULT 0,
+    tax_rate DECIMAL(5,2) NOT NULL DEFAULT 0.00,
+    growth_rate DECIMAL(4,3) NOT NULL DEFAULT 1.000,
+    created_date TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (country_id) REFERENCES country(id) ON DELETE CASCADE,
+    UNIQUE(country_id, name),
+    UNIQUE(country_id, code)
+);
+</code></pre>
+<h4 id="constraintrelationship-notes_6">Constraint/Relationship notes</h4>
+<ul>
+<li><strong>Primary Key</strong>: <code>id</code> - Unique identifier for each state</li>
+<li><strong>Foreign Key</strong>: <code>country_id</code> - Links to the country this state belongs to</li>
+<li><strong>Unique Constraints</strong>: <code>name</code> and <code>code</code> must be unique within each country</li>
+<li><strong>Wealth Modifier</strong>: Multiplier applied to country's wealth level (1.00 = same as country, &gt;1.00 = wealthier than country average)</li>
+<li><strong>Football Interest Modifier</strong>: Applied to country's football interest (stacks with country modifier)</li>
+<li><strong>Economic Stability Modifier</strong>: Applied to country's economic stability</li>
+<li><strong>Temperature Modifier</strong>: Added/subtracted from country's average temperature (in Fahrenheit)</li>
+<li><strong>Tax Rate</strong>: State-specific tax rate affecting team finances and player salaries</li>
+<li><strong>Population</strong>: State population, affects local market size</li>
+<li><strong>Growth Rate</strong>: Annual economic growth rate modifier, which combines with the effective country growth rate.</li>
+<li><strong>Growth Rate Calculation</strong>: The effective growth rate for a state is calculated by combining the effective country growth rate with the state's growth rate modifier (e.g., <code>effective_state_growth = effective_country_growth * state.growth_rate</code>).</li>
+<li><strong>Modifier Inheritance</strong>: Team calculations will use: <code>country_value * country_modifier * state_modifier</code></li>
+<li><strong>Additional Modifiers</strong>: State-specific gameplay modifiers will be stored in separate <code>state_modifiers</code> table for flexibility</li>
+</ul>
+<h3 id="city-model">City Model</h3>
+<p>The City table represents cities within states. Each city has its own economic and cultural characteristics that modify the base state and country values, creating local variation within regions.</p>
+<pre><code class="language-sql">CREATE TABLE city (
+    id INTEGER PRIMARY KEY,
+    state_id INTEGER NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    wealth_modifier DECIMAL(3,2) NOT NULL DEFAULT 1.00,
+    football_interest_modifier DECIMAL(3,2) NOT NULL DEFAULT 1.00,
+    economic_stability_modifier DECIMAL(3,2) NOT NULL DEFAULT 1.00,
+    population INTEGER NOT NULL,
+    avg_temperature_modifier INTEGER NOT NULL DEFAULT 0,
+    cost_of_living_modifier DECIMAL(3,2) NOT NULL DEFAULT 1.00,
+    growth_rate DECIMAL(4,3) NOT NULL DEFAULT 1.000,
+    market_size VARCHAR(20) NOT NULL DEFAULT 'medium',
+    created_date TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (state_id) REFERENCES state(id) ON DELETE CASCADE,
+    UNIQUE(state_id, name)
+);
+</code></pre>
+<h4 id="constraintrelationship-notes_7">Constraint/Relationship notes</h4>
+<ul>
+<li><strong>Primary Key</strong>: <code>id</code> - Unique identifier for each city</li>
+<li><strong>Foreign Key</strong>: <code>state_id</code> - Links to the state this city belongs to</li>
+<li><strong>Unique Constraints</strong>: <code>name</code> must be unique within each state</li>
+<li><strong>Wealth Modifier</strong>: Multiplier applied to state's wealth level (1.00 = same as state, &gt;1.00 = wealthier than state average)</li>
+<li><strong>Football Interest Modifier</strong>: Applied to state's football interest (stacks with country and state modifiers)</li>
+<li><strong>Economic Stability Modifier</strong>: Applied to state's economic stability</li>
+<li><strong>Temperature Modifier</strong>: Added/subtracted from state's average temperature (in Fahrenheit)</li>
+<li><strong>Cost of Living</strong>: Affects player salary expectations and team operational costs</li>
+<li><strong>Growth Rate</strong>: Annual economic growth rate modifier, which combines with the effective state growth rate.</li>
+<li><strong>Market Size</strong>: Categorical size ('small', 'medium', 'large', 'major') affecting revenue potential</li>
+<li><strong>Population</strong>: City population, affects local fan base and media market</li>
+<li><strong>Modifier Inheritance</strong>: Team calculations will use: <code>country_value * country_modifier * state_modifier * city_modifier</code></li>
+<li><strong>Growth Rate Calculation</strong>: The effective growth rate for a city is calculated by combining the effective state growth rate with the city's growth rate modifier. This cascading calculation (<code>world_growth * country_growth * state_growth * city_growth</code>) determines the local economic evolution.</li>
+<li><strong>Additional Modifiers</strong>: City-specific gameplay modifiers will be stored in separate <code>city_modifiers</code> table for flexibility</li>
+</ul>
+<hr />
+<h2 id="league-competition-models">League &amp; Competition Models</h2>
+<h3 id="league-model">League Model</h3>
+<p>The League table represents football leagues that can span multiple countries. Each league has its own rules, structure, and prestige level that affects gameplay.</p>
+<pre><code class="language-sql">CREATE TABLE league (
+    id INTEGER PRIMARY KEY,
+    world_id INTEGER NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    short_name VARCHAR(20) NOT NULL,
+    prestige_rating INTEGER NOT NULL DEFAULT 50,
+    is_professional BOOLEAN NOT NULL DEFAULT TRUE,
+    salary_cap DECIMAL(12,2),
+    min_teams INTEGER NOT NULL DEFAULT 8,
+    max_teams INTEGER NOT NULL DEFAULT 32,
+    season_length INTEGER NOT NULL DEFAULT 16,
+    playoff_format VARCHAR(50) NOT NULL DEFAULT 'single_elimination',
+    has_conferences BOOLEAN NOT NULL DEFAULT FALSE,
+    has_divisions BOOLEAN NOT NULL DEFAULT FALSE,
+    enforce_geographic_rules BOOLEAN NOT NULL DEFAULT FALSE,
+    created_date TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    is_active BOOLEAN NOT NULL DEFAULT TRUE,
+    FOREIGN KEY (world_id) REFERENCES world(id) ON DELETE CASCADE
+);
+</code></pre>
+<h4 id="supporting-tables">Supporting Tables</h4>
+<h5 id="league-countries-many-to-many">League Countries (Many-to-Many)</h5>
+<pre><code class="language-sql">CREATE TABLE league_country (
+    league_id INTEGER NOT NULL,
+    country_id INTEGER NOT NULL,
+    is_primary_country BOOLEAN NOT NULL DEFAULT FALSE,
+    created_date TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (league_id, country_id),
+    FOREIGN KEY (league_id) REFERENCES league(id) ON DELETE CASCADE,
+    FOREIGN KEY (country_id) REFERENCES country(id) ON DELETE CASCADE
+);
+</code></pre>
+<h5 id="league-membership-rules">League Membership Rules</h5>
+<pre><code class="language-sql">CREATE TABLE league_membership_rule (
+    id INTEGER PRIMARY KEY,
+    league_id INTEGER NOT NULL,
+    rule_type VARCHAR(50) NOT NULL,
+    rule_value VARCHAR(255) NOT NULL,
+    is_active BOOLEAN NOT NULL DEFAULT TRUE,
+    created_date TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (league_id) REFERENCES league(id) ON DELETE CASCADE
+);
+</code></pre>
+<h5 id="league-conferences">League Conferences</h5>
+<pre><code class="language-sql">CREATE TABLE league_conference (
+    id INTEGER PRIMARY KEY,
+    league_id INTEGER NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    short_name VARCHAR(20) NOT NULL,
+    display_order INTEGER NOT NULL DEFAULT 1,
+    created_date TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (league_id) REFERENCES league(id) ON DELETE CASCADE,
+    UNIQUE(league_id, name),
+    UNIQUE(league_id, short_name)
+);
+</code></pre>
+<h5 id="league-divisions">League Divisions</h5>
+<pre><code class="language-sql">CREATE TABLE league_division (
+    id INTEGER PRIMARY KEY,
+    league_id INTEGER NOT NULL,
+    conference_id INTEGER,
+    name VARCHAR(100) NOT NULL,
+    short_name VARCHAR(20) NOT NULL,
+    display_order INTEGER NOT NULL DEFAULT 1,
+    created_date TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (league_id) REFERENCES league(id) ON DELETE CASCADE,
+    FOREIGN KEY (conference_id) REFERENCES league_conference(id) ON DELETE CASCADE,
+    UNIQUE(league_id, name),
+    UNIQUE(league_id, short_name)
+);
+</code></pre>
+<h5 id="playoff-formats">Playoff Formats</h5>
+<pre><code class="language-sql">CREATE TABLE playoff_format (
+    id INTEGER PRIMARY KEY,
+    format_code VARCHAR(50) NOT NULL UNIQUE,
+    name VARCHAR(100) NOT NULL,
+    description TEXT,
+    teams_qualify INTEGER NOT NULL,
+    rounds INTEGER NOT NULL,
+    created_date TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+</code></pre>
+<h4 id="constraintrelationship-notes_8">Constraint/Relationship notes</h4>
+<ul>
+<li><strong>Primary Key</strong>: <code>id</code> - Unique identifier for each league</li>
+<li><strong>Foreign Key</strong>: <code>world_id</code> - Links to the world this league exists in</li>
+<li><strong>Prestige Rating</strong>: 1-100 scale affecting player desirability and media attention</li>
+<li><strong>Professional Status</strong>: Determines if players receive compensation</li>
+<li><strong>Salary Cap</strong>: Optional salary limit for professional leagues</li>
+<li><strong>Team Limits</strong>: Minimum and maximum number of teams allowed</li>
+<li><strong>Structure Options</strong>: Conferences and divisions can be enabled independently</li>
+<li><strong>Geographic Rules</strong>: When enabled, restricts team locations based on league countries</li>
+<li><strong>League Countries</strong>: Many-to-many relationship allowing leagues to span multiple countries</li>
+<li><strong>Primary Country</strong>: One country can be marked as the league's primary base</li>
+<li><strong>Membership Rules</strong>: Flexible rule system for team eligibility</li>
+<li>Rule types: 'geographic_restriction', 'stadium_capacity', 'financial_requirement', etc.</li>
+<li>Rule values: JSON or string values defining specific requirements</li>
+<li><strong>League Conferences</strong>: Optional organizational structure within leagues</li>
+<li>Conferences can exist without divisions</li>
+<li>Display order determines UI presentation</li>
+<li><strong>League Divisions</strong>: Optional sub-structure within conferences or leagues</li>
+<li>Can belong to a conference or directly to a league (conference_id nullable)</li>
+<li>Display order determines UI presentation</li>
+<li><strong>Playoff Formats</strong>: Standardized playoff structures</li>
+<li>Format codes: 'single_elimination', 'double_elimination', 'round_robin', 'bracket_8', 'bracket_16', etc.</li>
+<li>Teams qualify: Number of teams that make playoffs</li>
+<li>Rounds: Number of playoff rounds</li>
+<li><strong>Additional Rules</strong>: League-specific gameplay rules will be stored in separate <code>league_rules</code> table for extensibility</li>
+</ul>
+<h3 id="league-standings-model">League Standings Model</h3>
+<p>Tracks the performance of each team within a specific league for a given season. This is the source for playoff qualification.</p>
+<pre><code class="language-sql">CREATE TABLE league_standings (
+    id INTEGER PRIMARY KEY,
+    season_year INTEGER NOT NULL,
+    league_id INTEGER NOT NULL,
+    team_id INTEGER NOT NULL,
+    wins INTEGER NOT NULL DEFAULT 0,
+    losses INTEGER NOT NULL DEFAULT 0,
+    ties INTEGER NOT NULL DEFAULT 0,
+    points_for INTEGER NOT NULL DEFAULT 0,
+    points_against INTEGER NOT NULL DEFAULT 0,
+    UNIQUE(season_year, league_id, team_id),
+    FOREIGN KEY (league_id) REFERENCES league(id) ON DELETE CASCADE,
+    FOREIGN KEY (team_id) REFERENCES team(id) ON DELETE CASCADE
+);
+</code></pre>
+<hr />
+<h2 id="team-organization-models">Team &amp; Organization Models</h2>
+<h3 id="team-model">Team Model</h3>
+<p>The Team table represents football teams that can participate in multiple leagues. Each team has location, branding, and organizational attributes.</p>
+<pre><code class="language-sql">CREATE TABLE team (
+    id INTEGER PRIMARY KEY,
+    world_id INTEGER NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    short_name VARCHAR(20) NOT NULL,
+    city_id INTEGER NOT NULL,
+    owner_staff_id INTEGER,
+    head_coach_staff_id INTEGER,
+    current_playbook_id INTEGER,
+    founded_year INTEGER,
+    primary_color VARCHAR(7) NOT NULL,
+    secondary_color VARCHAR(7) NOT NULL,
+    mascot_name VARCHAR(50),
+    budget DECIMAL(12,2) NOT NULL DEFAULT 0.00,
+    is_active BOOLEAN NOT NULL DEFAULT TRUE,
+    created_date TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (world_id) REFERENCES world(id) ON DELETE CASCADE,
+    FOREIGN KEY (city_id) REFERENCES city(id) ON DELETE RESTRICT,
+    FOREIGN KEY (owner_staff_id) REFERENCES staff(id) ON DELETE SET NULL,
+    FOREIGN KEY (head_coach_staff_id) REFERENCES staff(id) ON DELETE SET NULL,
+    FOREIGN KEY (current_playbook_id) REFERENCES playbook(id) ON DELETE SET NULL
+);
+</code></pre>
+<h4 id="supporting-tables_1">Supporting Tables</h4>
+<h5 id="team-league-memberships-many-to-many">Team League Memberships (Many-to-Many)</h5>
+<pre><code class="language-sql">CREATE TABLE team_league (
+    team_id INTEGER NOT NULL,
+    league_id INTEGER NOT NULL,
+    conference_id INTEGER,
+    division_id INTEGER,
+    joined_date TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    is_active BOOLEAN NOT NULL DEFAULT TRUE,
+    PRIMARY KEY (team_id, league_id),
+    FOREIGN KEY (team_id) REFERENCES team(id) ON DELETE CASCADE,
+    FOREIGN KEY (league_id) REFERENCES league(id) ON DELETE CASCADE,
+    FOREIGN KEY (conference_id) REFERENCES league_conference(id) ON DELETE SET NULL,
+    FOREIGN KEY (division_id) REFERENCES league_division(id) ON DELETE SET NULL
+);
+</code></pre>
+<h5 id="team-artwork">Team Artwork</h5>
+<pre><code class="language-sql">CREATE TABLE team_artwork (
+    id INTEGER PRIMARY KEY,
+    team_id INTEGER NOT NULL,
+    artwork_type VARCHAR(50) NOT NULL,
+    file_url VARCHAR(255) NOT NULL,
+    description TEXT,
+    is_primary BOOLEAN NOT NULL DEFAULT FALSE,
+    created_date TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (team_id) REFERENCES team(id) ON DELETE CASCADE
+);
+</code></pre>
+<h5 id="team-roster">Team Roster</h5>
+<pre><code class="language-sql">CREATE TABLE team_roster (
+    id INTEGER PRIMARY KEY,
+    team_id INTEGER NOT NULL,
+    player_id INTEGER NOT NULL,
+    position_id INTEGER NOT NULL,
+    depth_chart_order INTEGER NOT NULL,
+    status VARCHAR(50) NOT NULL DEFAULT 'active', -- e.g., 'active', 'injured_reserve'
+    UNIQUE(team_id, player_id),
+    UNIQUE(team_id, position_id, depth_chart_order),
+    FOREIGN KEY (team_id) REFERENCES team(id) ON DELETE CASCADE,
+    FOREIGN KEY (player_id) REFERENCES player(id) ON DELETE CASCADE,
+    FOREIGN KEY (position_id) REFERENCES player_position(id) ON DELETE RESTRICT
+);
+</code></pre>
+<h4 id="constraintrelationship-notes_9">Constraint/Relationship notes</h4>
+<ul>
+<li><strong>Primary Key</strong>: <code>id</code> - Unique identifier for each team</li>
+<li><strong>Foreign Keys</strong>:</li>
+<li><code>world_id</code> - Links to the world this team exists in</li>
+<li><code>city_id</code> - Team's home city location (RESTRICT prevents deletion of cities with teams)</li>
+<li><strong>Team Identity</strong>: Name, colors, mascot, and logo define team branding</li>
+<li><strong>Leadership</strong>: The <code>owner_staff_id</code> and <code>head_coach_staff_id</code> fields link directly to the <code>staff</code> table. This provides a formal connection to the individuals filling these roles, allowing the simulation to access their attributes and personalities.</li>
+<li><strong>Multi-League Membership</strong>: Teams can participate in multiple leagues simultaneously</li>
+<li><strong>League Structure</strong>: Teams can be assigned to specific conferences/divisions within each league</li>
+<li><strong>Team Artwork</strong>: Flexible system for storing multiple artwork types</li>
+<li>Artwork types: 'logo', 'helmet', 'jersey_home', 'jersey_away', 'banner', 'mascot_image'</li>
+<li>Primary flag indicates main artwork for each type</li>
+<li><strong>Budget</strong>: Team's available funds for operations and player salaries</li>
+<li><strong>Geographic Inheritance</strong>: Teams inherit economic and cultural modifiers from their city location</li>
+<li><strong>Stadium Relationships</strong>: Teams can play in multiple stadiums - relationships will be managed through separate <code>stadium</code> and <code>team_stadium</code> tables</li>
+<li><strong>Future Expansion</strong>: Team facilities, staff, and historical records will be stored in separate tables</li>
+</ul>
+<h3 id="playbook-model">Playbook Model</h3>
+<p>Represents a collection of plays that a team can use.</p>
+<pre><code class="language-sql">CREATE TABLE playbook (
+    id INTEGER PRIMARY KEY,
+    team_id INTEGER,
+    name VARCHAR(100) NOT NULL,
+    description TEXT,
+    is_default BOOLEAN NOT NULL DEFAULT FALSE,
+    FOREIGN KEY (team_id) REFERENCES team(id) ON DELETE SET NULL
+);
+</code></pre>
+<h4 id="constraintrelationship-notes_10">Constraint/Relationship notes</h4>
+<ul>
+<li><code>team_id</code>: The team this playbook belongs to. Can be NULL for default, system-wide playbooks.</li>
+<li><code>is_default</code>: Flags playbooks that are available to all teams.</li>
+</ul>
+<h3 id="play-design-model">Play Design Model</h3>
+<p>Defines the abstract concept of a single football play.</p>
+<pre><code class="language-sql">CREATE TABLE play_design (
+    id INTEGER PRIMARY KEY,
+    playbook_id INTEGER NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    play_type VARCHAR(50) NOT NULL,
+    formation VARCHAR(50),
+    base_description TEXT,
+    FOREIGN KEY (playbook_id) REFERENCES playbook(id) ON DELETE CASCADE
+);
+</code></pre>
+<h4 id="constraintrelationship-notes_11">Constraint/Relationship notes</h4>
+<ul>
+<li><code>play_type</code>: Categorical type (e.g., 'RUSH', 'PASS', 'PUNT', 'FIELD_GOAL').</li>
+<li><code>base_description</code>: A template for the text log, e.g., "{QB_NAME} hands off to {RB_NAME}...".</li>
+</ul>
+<h3 id="stadium-model">Stadium Model</h3>
+<p>The Stadium table represents the physical venues where games are played. Each stadium has a location, capacity, and specific characteristics that can affect gameplay.</p>
+<pre><code class="language-sql">CREATE TABLE stadium (
+    id INTEGER PRIMARY KEY,
+    world_id INTEGER NOT NULL,
+    city_id INTEGER NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    capacity INTEGER NOT NULL,
+    year_built INTEGER,
+    stadium_type VARCHAR(20) NOT NULL DEFAULT 'open_air',
+    playing_surface VARCHAR(20) NOT NULL DEFAULT 'grass',
+    created_date TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (world_id) REFERENCES world(id) ON DELETE CASCADE,
+    FOREIGN KEY (city_id) REFERENCES city(id) ON DELETE RESTRICT
+);
+</code></pre>
+<h4 id="constraintrelationship-notes_12">Constraint/Relationship notes</h4>
+<ul>
+<li><strong>Primary Key</strong>: <code>id</code> - Unique identifier for each stadium.</li>
+<li><strong>Foreign Keys</strong>:</li>
+<li><code>world_id</code> - Links the stadium to the world it exists in.</li>
+<li><code>city_id</code> - The stadium's home city, which also links it to the cascading modifier system. RESTRICT prevents deleting a city that has a stadium.</li>
+<li><strong>Attributes</strong>:</li>
+<li><code>stadium_type</code>: Categorical type of stadium (e.g., 'open_air', 'retractable_roof', 'dome').</li>
+<li><code>playing_surface</code>: The type of field turf (e.g., 'grass', 'artificial_turf', 'hybrid').</li>
+<li><strong>Team Relationship</strong>: A team's home stadium will be defined through a separate <code>team_stadium</code> relationship table.</li>
+</ul>
+<hr />
+<h2 id="entity-generation-models">Entity Generation Models</h2>
+<p>These models provide a flexible, data-driven framework for generating new entities like players. This system uses archetypes to define templates and configurations to control their spawn rates over time and across different contexts (e.g., for a specific league or country).</p>
+<h3 id="archetype-model">Archetype Model</h3>
+<p>The Archetype table defines templates for different types of entities. For players, this could be 'Pocket Passer QB' or 'Coverage Safety'.</p>
+<pre><code class="language-sql">CREATE TABLE archetype (
+    id INTEGER PRIMARY KEY,
+    entity_type VARCHAR(50) NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    description TEXT,
+    is_active BOOLEAN NOT NULL DEFAULT TRUE,
+    created_date TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(entity_type, name)
+);
+</code></pre>
+<h4 id="supporting-tables_2">Supporting Tables</h4>
+<h5 id="archetype-attributes">Archetype Attributes</h5>
+<pre><code class="language-sql">CREATE TABLE archetype_attribute (
+    id INTEGER PRIMARY KEY,
+    archetype_id INTEGER NOT NULL,
+    attribute_name VARCHAR(50) NOT NULL,
+    base_value INTEGER NOT NULL,
+    FOREIGN KEY (archetype_id) REFERENCES archetype(id) ON DELETE CASCADE,
+    UNIQUE(archetype_id, attribute_name)
+);
+</code></pre>
+<h4 id="constraintrelationship-notes_13">Constraint/Relationship notes</h4>
+<ul>
+<li><strong>Primary Key</strong>: <code>id</code> - Unique identifier for each archetype.</li>
+<li><code>entity_type</code>: The kind of entity this archetype defines (e.g., 'player', 'coach').</li>
+<li><code>archetype_attribute</code>: This table stores the baseline values for all relevant attributes of an archetype (e.g., for a player archetype, <code>attribute_name</code> could be 'speed' or 'strength'). The generation logic will use this <code>base_value</code> and apply randomization to create unique individuals.</li>
+</ul>
+<h3 id="generation-configuration-model">Generation Configuration Model</h3>
+<p>This polymorphic table defines how frequently different archetypes should be generated for a given scope (e.g., a league, a country, or globally). This allows generation logic to change over time and by region.</p>
+<pre><code class="language-sql">CREATE TABLE generation_config (
+    id INTEGER PRIMARY KEY,
+    config_scope VARCHAR(50) NOT NULL,
+    scope_id INTEGER NOT NULL,
+    archetype_id INTEGER NOT NULL,
+    spawn_weight INTEGER NOT NULL DEFAULT 100,
+    start_year INTEGER NOT NULL,
+    end_year INTEGER,
+    created_date TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (archetype_id) REFERENCES archetype(id) ON DELETE CASCADE
+);
+</code></pre>
+<h4 id="constraintrelationship-notes_14">Constraint/Relationship notes</h4>
+<ul>
+<li><strong>Polymorphic Scope</strong>:</li>
+<li><code>config_scope</code>: Defines the context for this configuration (e.g., 'world', 'league', 'country').</li>
+<li><code>scope_id</code>: The ID of the record in the table defined by <code>config_scope</code>.</li>
+<li><code>archetype_id</code>: The archetype this configuration applies to.</li>
+<li><code>spawn_weight</code>: A relative weight determining the probability of this archetype being generated within its scope. Higher values are more common.</li>
+<li><code>start_year</code> / <code>end_year</code>: Defines the range of seasons (inclusive) during which this configuration is active, allowing for player generation to evolve over time. <code>end_year</code> can be NULL for an indefinite period.</li>
+</ul>
+<hr />
+<h2 id="people-character-models">People &amp; Character Models</h2>
+<h3 id="individual-model">Individual Model</h3>
+<p>The Individual table is the base representation for any person in the game world, including players, coaches, owners, and staff. It stores common personal information and personality traits.</p>
+<pre><code class="language-sql">
+CREATE TABLE individual (
+    id INTEGER PRIMARY KEY,
+    world_id INTEGER NOT NULL,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    birth_date DATE NOT NULL,
+    home_city_id INTEGER NOT NULL,
+    desire_to_win INTEGER NOT NULL DEFAULT 50,
+    greed INTEGER NOT NULL DEFAULT 50,
+    demeanor INTEGER NOT NULL DEFAULT 50,
+    luck INTEGER NOT NULL DEFAULT 50,
+    loyalty INTEGER NOT NULL DEFAULT 50,
+    patience INTEGER NOT NULL DEFAULT 50,
+    likability INTEGER NOT NULL DEFAULT 50,
+    is_draft_eligible BOOLEAN NOT NULL DEFAULT FALSE,
+    draft_year INTEGER,
+    created_date TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (world_id) REFERENCES world(id) ON DELETE CASCADE,
+    FOREIGN KEY (home_city_id) REFERENCES city(id) ON DELETE RESTRICT
+);
+</code></pre>
+<h4 id="constraintrelationship-notes_15">Constraint/Relationship notes</h4>
+<ul>
+<li><strong>Primary Key</strong>: <code>id</code> - Unique identifier for each individual.</li>
+<li><strong>Foreign Keys</strong>:</li>
+<li><code>world_id</code> - Links the individual to a specific game world.</li>
+<li><code>home_city_id</code> - The individual's home city, which determines their home state and country.</li>
+<li><strong>Personality Ratings</strong>: Scored 1-100, influencing decisions and interactions.</li>
+<li><code>desire_to_win</code>: Competitiveness.</li>
+<li><code>greed</code>: Focus on financial gain.</li>
+<li><code>demeanor</code>: Public and private temperament.</li>
+<li><code>luck</code>: A general modifier for random events.</li>
+<li><code>loyalty</code>: Willingness to stay with current teams, friends, etc.</li>
+<li><code>patience</code>: Tolerance for lack of success or development.</li>
+<li><strong>Relationships</strong>: The generic <code>relationship</code> table manages connections between entities, including individual-to-individual relationships like family, friendships, or rivalries.</li>
+<li><strong>Character Roles</strong>: This table serves as a base, with specific roles like Player or Coach defined in other tables that link back to this one.</li>
+<li><strong>Draft Status</strong>: <code>is_draft_eligible</code> and <code>draft_year</code> manage a player's entry into the league draft pool.</li>
+</ul>
+<h3 id="player-position-model">Player Position Model</h3>
+<p>This table is a simple lookup that defines all valid player positions in the game, ensuring standardization.</p>
+<pre><code class="language-sql">CREATE TABLE player_position (
+    id INTEGER PRIMARY KEY,
+    name VARCHAR(50) NOT NULL UNIQUE,
+    abbreviation VARCHAR(5) NOT NULL UNIQUE,
+    unit VARCHAR(10) NOT NULL -- 'offense', 'defense', or 'special_teams'
+);
+</code></pre>
+<h4 id="constraintrelationship-notes_16">Constraint/Relationship notes</h4>
+<ul>
+<li><code>unit</code>: A categorical assignment to 'offense', 'defense', or 'special_teams' for easier logic filtering.</li>
+</ul>
+<h3 id="player-model">Player Model</h3>
+<p>The Player table contains all athletic attributes and game-specific information for an individual who is a football player. It links to an <code>Individual</code> record for personal details.</p>
+<pre><code class="language-sql">CREATE TABLE player (
+    id INTEGER PRIMARY KEY,
+    individual_id INTEGER NOT NULL UNIQUE,
+    is_active BOOLEAN NOT NULL DEFAULT TRUE,
+    status VARCHAR(50) NOT NULL DEFAULT 'free_agent',
+    speed INTEGER NOT NULL,
+    explosiveness INTEGER NOT NULL,
+    strength INTEGER NOT NULL,
+    stamina INTEGER NOT NULL,
+    catching INTEGER NOT NULL,
+    ball_security INTEGER NOT NULL,
+    footwork INTEGER NOT NULL,
+    breaking_tackles INTEGER NOT NULL,
+    anticipation INTEGER NOT NULL,
+    blocking_power INTEGER NOT NULL,
+    blocking_technique INTEGER NOT NULL,
+    shed_blocks INTEGER NOT NULL,
+    tackling INTEGER NOT NULL,
+    teamwork INTEGER NOT NULL,
+    communication INTEGER NOT NULL,
+    created_date TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (individual_id) REFERENCES individual(id) ON DELETE CASCADE
+);
+</code></pre>
+<h4 id="supporting-tables_3">Supporting Tables</h4>
+<h5 id="player-stats-history">Player Stats History</h5>
+<pre><code class="language-sql">CREATE TABLE player_stats_history (
+    id INTEGER PRIMARY KEY,
+    player_id INTEGER NOT NULL,
+    season_year INTEGER NOT NULL,
+    level VARCHAR(50) NOT NULL,
+    team_name VARCHAR(100),
+    -- Statistical fields for all positions will be columns here
+    created_date TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (player_id) REFERENCES player(id) ON DELETE CASCADE
+);
+</code></pre>
+<h4 id="constraintrelationship-notes_17">Constraint/Relationship notes</h4>
+<ul>
+<li><strong>Primary Key</strong>: <code>id</code> - Unique identifier for each player record.</li>
+<li><strong>Foreign Key</strong>: <code>individual_id</code> - A one-to-one link to the <code>Individual</code> table for personal data.</li>
+<li><strong>Status</strong>: Player's current status (e.g., 'free_agent', 'on_roster', 'injured', 'retired').</li>
+<li><strong>Athletic Ratings</strong>: Scored 1-100, representing the player's skills on the field.</li>
+<li><strong>Team Relationship</strong>: A player's contractual relationship with a team is managed through the <code>player_contract</code> and <code>player_contract_year</code> tables.</li>
+<li><strong>Statistical History</strong>: The <code>player_stats_history</code> table tracks a player's performance at various levels (e.g., 'high_school', 'college', 'pro') throughout their career.</li>
+</ul>
+<hr />
+<h2 id="personnel-contracts-staff-models">Personnel, Contracts &amp; Staff Models</h2>
+<p>This section contains every table related to contracts, salaries, and employment for both players and staff. This makes the financial and team management aspects of the schema much easier to understand as a single system.</p>
+<h3 id="player-contract-model">Player Contract Model</h3>
+<p>The Player Contract table holds the overarching terms of an agreement between a player and a team, including duration, options, and special clauses.</p>
+<pre><code class="language-sql">CREATE TABLE player_contract (
+    id INTEGER PRIMARY KEY,
+    player_id INTEGER NOT NULL,
+    team_id INTEGER NOT NULL,
+    start_year INTEGER NOT NULL,
+    total_years INTEGER NOT NULL,
+    no_trade_clause BOOLEAN NOT NULL DEFAULT FALSE,
+    team_option_year INTEGER,
+    player_option_year INTEGER,
+    is_active BOOLEAN NOT NULL DEFAULT TRUE,
+    FOREIGN KEY (player_id) REFERENCES player(id) ON DELETE CASCADE,
+    FOREIGN KEY (team_id) REFERENCES team(id) ON DELETE CASCADE
+);
+</code></pre>
+<h4 id="constraintrelationship-notes_18">Constraint/Relationship notes</h4>
+<ul>
+<li><strong>Links</strong>: Connects a <code>player</code> to a <code>team</code>.</li>
+<li><strong>Duration</strong>: <code>start_year</code> and <code>total_years</code> define the guaranteed length of the contract.</li>
+<li><code>no_trade_clause</code>: A boolean flag to prevent the player from being traded.</li>
+<li><strong>Options</strong>: <code>team_option_year</code> and <code>player_option_year</code> are nullable integers. If a value is present, it indicates the season in which a team or player option can be exercised to extend the contract.</li>
+<li><code>is_active</code>: Flags the player's current contract. A player can have historical (inactive) contracts but only one active one.</li>
+</ul>
+<h3 id="player-contract-year-model">Player Contract Year Model</h3>
+<p>This table stores the year-by-year financial details for a specific contract, allowing for salary structures that change over the life of the deal.</p>
+<pre><code class="language-sql">CREATE TABLE player_contract_year (
+    id INTEGER PRIMARY KEY,
+    player_contract_id INTEGER NOT NULL,
+    season_year INTEGER NOT NULL,
+    base_salary_usd DECIMAL(12,2) NOT NULL,
+    signing_bonus_proration_usd DECIMAL(12,2) NOT NULL DEFAULT 0.00,
+    performance_bonus_usd DECIMAL(12,2) NOT NULL DEFAULT 0.00,
+    performance_bonus_criteria TEXT,
+    is_guaranteed BOOLEAN NOT NULL DEFAULT TRUE,
+    UNIQUE (player_contract_id, season_year),
+    FOREIGN KEY (player_contract_id) REFERENCES player_contract(id) ON DELETE CASCADE
+);
+</code></pre>
+<h4 id="constraintrelationship-notes_19">Constraint/Relationship notes</h4>
+<ul>
+<li><strong>Foreign Key</strong>: Links each yearly breakdown to a master <code>player_contract</code>.</li>
+<li><strong>Unique Constraint</strong>: Ensures there is only one financial record per year for any given contract.</li>
+<li><strong>Financials</strong>: Defines the player's compensation for that specific <code>season_year</code>.</li>
+<li><code>performance_bonus_criteria</code>: A text field describing the conditions that must be met for the bonus to be earned (e.g., "1200+ rushing yards", "Pro Bowl selection"). This allows for flexible, readable bonus terms.</li>
+</ul>
+<h3 id="staff-role-type-model">Staff Role Type Model</h3>
+<p>This is a lookup table that defines all possible job roles in the game world, both for team personnel and personal staff.</p>
+<pre><code class="language-sql">CREATE TABLE staff_role_type (
+    id INTEGER PRIMARY KEY,
+    name VARCHAR(100) NOT NULL UNIQUE,
+    category VARCHAR(50) NOT NULL,
+    description TEXT
+);
+</code></pre>
+<h4 id="constraintrelationship-notes_20">Constraint/Relationship notes</h4>
+<ul>
+<li><code>name</code>: The user-facing name of the role (e.g., 'Head Coach', 'Financial Advisor').</li>
+<li><code>category</code>: A broader grouping for logic and UI (e.g., 'Coaching Staff', 'Medical Staff', 'Personal Finance', 'Personal Legal').</li>
+</ul>
+<h3 id="staff-model">Staff Model</h3>
+<p>The Staff table is the base for any non-player individual who is employed. It links an <code>individual</code> to their employer, which can be either a <code>team</code> or another <code>individual</code>. It holds universal employment data like salary and contract terms.</p>
+<pre><code class="language-sql">CREATE TABLE staff (
+    id INTEGER PRIMARY KEY,
+    individual_id INTEGER NOT NULL UNIQUE,
+    staff_role_type_id INTEGER NOT NULL,
+    employer_team_id INTEGER,
+    employer_individual_id INTEGER,
+    role_title VARCHAR(100) NOT NULL,
+    salary_usd DECIMAL(12,2) NOT NULL,
+    contract_start_year INTEGER NOT NULL,
+    contract_years INTEGER NOT NULL,
+    status VARCHAR(50) NOT NULL DEFAULT 'active',
+    FOREIGN KEY (individual_id) REFERENCES individual(id) ON DELETE CASCADE,
+    FOREIGN KEY (staff_role_type_id) REFERENCES staff_role_type(id) ON DELETE RESTRICT,
+    FOREIGN KEY (employer_team_id) REFERENCES team(id) ON DELETE SET NULL,
+    FOREIGN KEY (employer_individual_id) REFERENCES individual(id) ON DELETE SET NULL,
+    CONSTRAINT check_single_employer CHECK (
+        (employer_team_id IS NOT NULL AND employer_individual_id IS NULL) OR
+        (employer_team_id IS NULL AND employer_individual_id IS NOT NULL)
+    )
+);
+</code></pre>
+<h4 id="constraintrelationship-notes_21">Constraint/Relationship notes</h4>
+<ul>
+<li><strong>Foreign Keys</strong>: Links to the person (<code>individual_id</code>) and their job definition (<code>staff_role_type_id</code>).</li>
+<li><strong>Flexible Employer</strong>: <code>employer_team_id</code> is for team staff. <code>employer_individual_id</code> is for personal staff.</li>
+<li><strong><code>check_single_employer</code></strong>: This crucial database constraint ensures that a staff member must have exactly one employer—either a team OR an individual, but never both or neither.</li>
+<li><code>role_title</code>: The specific title for this instance of the role (e.g. 'Offensive Coordinator' is a title for the 'Coach' role type).</li>
+</ul>
+<h3 id="financial-advisor-attributes-model">Financial Advisor Attributes Model</h3>
+<p>Stores attributes specific only to financial advisors.</p>
+<pre><code class="language-sql">CREATE TABLE financial_advisor_attributes (
+    staff_id INTEGER PRIMARY KEY,
+    investment_skill INTEGER NOT NULL DEFAULT 50,
+    risk_tolerance_philosophy VARCHAR(100),
+    specialty VARCHAR(100),
+    FOREIGN KEY (staff_id) REFERENCES staff(id) ON DELETE CASCADE
+);
+</code></pre>
+<h3 id="legal-advisor-attributes-model">Legal Advisor Attributes Model</h3>
+<p>Stores attributes specific only to lawyers/agents.</p>
+<pre><code class="language-sql">CREATE TABLE legal_advisor_attributes (
+    staff_id INTEGER PRIMARY KEY,
+    contract_negotiation_skill INTEGER NOT NULL DEFAULT 50,
+    litigation_skill INTEGER NOT NULL DEFAULT 50,
+    bar_association_number VARCHAR(100),
+    FOREIGN KEY (staff_id) REFERENCES staff(id) ON DELETE CASCADE
+);
+</code></pre>
+<h3 id="personal-wellness-attributes-model">Personal Wellness Attributes Model</h3>
+<p>A generic table for personal staff focused on the character's well-being, such as chefs or personal trainers.</p>
+<pre><code class="language-sql">CREATE TABLE personal_wellness_attributes (
+    staff_id INTEGER PRIMARY KEY,
+    effectiveness_skill INTEGER NOT NULL DEFAULT 50,
+    specialty VARCHAR(100),
+    FOREIGN KEY (staff_id) REFERENCES staff(id) ON DELETE CASCADE
+);
+</code></pre>
+<h3 id="coach-attributes-model">Coach Attributes Model</h3>
+<p>Stores attributes specific to coaches, influencing their AI behavior.</p>
+<pre><code class="language-sql">CREATE TABLE coach_attributes (
+    staff_id INTEGER PRIMARY KEY,
+    play_calling_skill INTEGER NOT NULL DEFAULT 50,
+    risk_tolerance INTEGER NOT NULL DEFAULT 50,
+    preferred_style VARCHAR(100),
+    FOREIGN KEY (staff_id) REFERENCES staff(id) ON DELETE CASCADE
+);
+</code></pre>
+<hr />
+<h2 id="game-simulation-models">Game &amp; Simulation Models</h2>
+<p>These models define the structure for managing an active game and recording the results of individual play simulations. They form the link between the static team/player data and the dynamic simulation engine.</p>
+<h3 id="game-model">Game Model</h3>
+<p>The Game table stores the static, high-level information about a single football game matchup, such as the teams involved, location, and date.</p>
+<pre><code class="language-sql">CREATE TABLE game (
+    id INTEGER PRIMARY KEY,
+    world_id INTEGER NOT NULL,
+    home_team_id INTEGER NOT NULL,
+    away_team_id INTEGER NOT NULL,
+    stadium_id INTEGER NOT NULL,
+    game_date TIMESTAMPTZ NOT NULL,
+    season_year INTEGER NOT NULL,
+    week_number INTEGER,
+    game_slot INTEGER,
+    status VARCHAR(20) NOT NULL DEFAULT 'scheduled',
+    created_date TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (world_id) REFERENCES world(id) ON DELETE CASCADE,
+    FOREIGN KEY (home_team_id) REFERENCES team(id) ON DELETE CASCADE,
+    FOREIGN KEY (away_team_id) REFERENCES team(id) ON DELETE CASCADE,
+    FOREIGN KEY (stadium_id) REFERENCES stadium(id) ON DELETE RESTRICT
+);
+</code></pre>
+<h4 id="constraintrelationship-notes_22">Constraint/Relationship notes</h4>
+<ul>
+<li><strong>Primary Key</strong>: <code>id</code> - Unique identifier for each game.</li>
+<li><strong>Foreign Keys</strong>:</li>
+<li><code>stadium_id</code> - Links the game to the <code>stadium</code> where it was played. RESTRICT prevents deleting a stadium if it has games associated with it.</li>
+<li><strong>Status</strong>: The current state of the game (e.g., 'scheduled', 'in_progress', 'final').</li>
+<li><strong>State Separation</strong>: The dynamic, play-by-play state of the game (score, clock, possession) is stored in the separate <code>game_state</code> table.</li>
+</ul>
+<h3 id="game-state-model">Game State Model</h3>
+<p>This table tracks the dynamic state of a single game, which is updated after every play. It holds all the information that changes during the game, such as score, time, and ball position.</p>
+<pre><code class="language-sql">CREATE TABLE game_state (
+    game_id INTEGER PRIMARY KEY,
+    home_score INTEGER NOT NULL DEFAULT 0,
+    away_score INTEGER NOT NULL DEFAULT 0,
+    current_quarter INTEGER,
+    time_remaining_in_quarter INTEGER,
+    team_with_possession_id INTEGER,
+    down INTEGER,
+    distance INTEGER,
+    ball_on_yard_line INTEGER,
+    is_drive_active BOOLEAN NOT NULL DEFAULT FALSE,
+    drive_start_yard_line INTEGER,
+    drive_start_time_in_quarter INTEGER,
+    FOREIGN KEY (game_id) REFERENCES game(id) ON DELETE CASCADE,
+    FOREIGN KEY (team_with_possession_id) REFERENCES team(id) ON DELETE SET NULL
+);
+</code></pre>
+<h4 id="constraintrelationship-notes_23">Constraint/Relationship notes</h4>
+<ul>
+<li><strong>Primary Key</strong>: <code>game_id</code> - This creates a one-to-one relationship with the <code>game</code> table.</li>
+<li><strong>Game State Fields</strong>:</li>
+<li><code>time_remaining_in_quarter</code>: Measured in seconds.</li>
+<li><code>ball_on_yard_line</code>: Represents the position of the ball from the perspective of the offense's goal line (e.g., a value of 25 means the ball is on the offense's own 25-yard line).</li>
+<li><strong>Drive Tracking</strong>: <code>is_drive_active</code>, <code>drive_start_yard_line</code>, and <code>drive_start_time_in_quarter</code> are used by the simulation engine to manage a single possession.</li>
+<li><strong>Note on the Field Model</strong>: The <code>game_state</code> table stores the persistent state of a game <em>between</em> plays. The detailed, coordinate-based "Field Model" described in the architecture notes is a transient, in-memory data structure used by the simulation engine <em>during</em> the execution of a single play. The results are then captured in the <code>play</code> table and used to update this <code>game_state</code> record.</li>
+</ul>
+<h3 id="game-plan-model">Game Plan Model</h3>
+<p>Stores the high-level strategic instructions for a team for a specific game, influencing the AI coach's play-calling decisions.</p>
+<pre><code class="language-sql">CREATE TABLE game_plan (
+    id INTEGER PRIMARY KEY,
+    game_id INTEGER NOT NULL,
+    team_id INTEGER NOT NULL,
+    pass_run_ratio DECIMAL(3,2) NOT NULL DEFAULT 0.50, -- 0.0 = 100% run, 1.0 = 100% pass
+    offensive_aggression INTEGER NOT NULL DEFAULT 50, -- 1-100 scale for 4th down attempts, trick plays
+    defensive_aggression INTEGER NOT NULL DEFAULT 50, -- 1-100 scale for blitzing, all-out coverage
+    UNIQUE(game_id, team_id),
+    FOREIGN KEY (game_id) REFERENCES game(id) ON DELETE CASCADE,
+    FOREIGN KEY (team_id) REFERENCES team(id) ON DELETE CASCADE
+);
+</code></pre>
+<h4 id="constraintrelationship-notes_24">Constraint/Relationship notes</h4>
+<ul>
+<li><strong>Unique Constraint</strong>: Ensures each team has only one game plan per game.</li>
+<li><strong>Ratios &amp; Scales</strong>: These values provide high-level guidance to the simulation engine's AI.</li>
+<li><code>pass_run_ratio</code>: Governs the tendency to call pass plays vs. run plays.</li>
+<li><code>offensive_aggression</code>: Influences decisions like going for it on 4th down.</li>
+<li><code>defensive_aggression</code>: Influences the frequency of blitzes vs. conservative coverage.</li>
+</ul>
+<h3 id="coach-instruction-log-model">Coach Instruction Log Model</h3>
+<p>Logs the instructions a user gives to their AI coach during a game, providing a history of their strategic decisions.</p>
+<pre><code class="language-sql">CREATE TABLE coach_instruction_log (
+    id INTEGER PRIMARY KEY,
+    game_id INTEGER NOT NULL,
+    team_id INTEGER NOT NULL,
+    quarter INTEGER,
+    play_number INTEGER,
+    instruction_text TEXT NOT NULL,
+    was_override BOOLEAN NOT NULL DEFAULT FALSE,
+    created_date TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (game_id) REFERENCES game(id) ON DELETE CASCADE,
+    FOREIGN KEY (team_id) REFERENCES team(id) ON DELETE CASCADE
+);
+</code></pre>
+<h3 id="play-model">Play Model</h3>
+<p>The Play table serves as a historical log, recording the key details and outcome of every single play that occurs within a game.</p>
+<pre><code class="language-sql">CREATE TABLE play (
+    id INTEGER PRIMARY KEY,
+    game_id INTEGER NOT NULL,
+    play_number INTEGER NOT NULL,
+    offense_team_id INTEGER NOT NULL,
+    defense_team_id INTEGER NOT NULL,
+    quarter INTEGER NOT NULL,
+    down INTEGER,
+    distance INTEGER,
+    start_yard_line INTEGER,
+    end_yard_line INTEGER,
+    result_type VARCHAR(50),
+    yards_gained INTEGER NOT NULL,
+    play_description TEXT,
+    turnover_type VARCHAR(50),
+    created_date TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (game_id) REFERENCES game(id) ON DELETE CASCADE,
+    FOREIGN KEY (offense_team_id) REFERENCES team(id) ON DELETE CASCADE,
+    FOREIGN KEY (defense_team_id) REFERENCES team(id) ON DELETE CASCADE
+);
+</code></pre>
+<h4 id="constraintrelationship-notes_25">Constraint/Relationship notes</h4>
+<ul>
+<li><strong>Primary Key</strong>: <code>id</code> - Unique identifier for each play record.</li>
+<li><strong>Foreign Key</strong>: <code>game_id</code> - Links the play to the specific game it occurred in.</li>
+<li><strong>Play Log</strong>: This table provides a complete, sequential record of a game's events, which can be used for box scores, recaps, and analysis.</li>
+<li><code>result_type</code>: A categorical description of the play (e.g., 'RUSH', 'PASS_COMPLETE', 'PASS_INCOMPLETE', 'PUNT', 'FIELD_GOAL_MADE', 'PENALTY').</li>
+<li><code>turnover_type</code>: Specifies the type of turnover, if any (e.g., 'INTERCEPTION', 'FUMBLE_LOST').</li>
+</ul>
+<h3 id="scoring-summary-model">Scoring Summary Model</h3>
+<p>A dedicated table to track every scoring play in a game. This provides an easy-to-query source for building a game's scoring summary without parsing the full play-by-play log.</p>
+<pre><code class="language-sql">CREATE TABLE scoring_summary (
+    id INTEGER PRIMARY KEY,
+    play_id INTEGER NOT NULL,
+    game_id INTEGER NOT NULL,
+    scoring_team_id INTEGER NOT NULL,
+    quarter INTEGER NOT NULL,
+    time_remaining_in_quarter INTEGER NOT NULL,
+    points_scored INTEGER NOT NULL,
+    scoring_play_type VARCHAR(50) NOT NULL,
+    description TEXT,
+    FOREIGN KEY (play_id) REFERENCES play(id) ON DELETE CASCADE,
+    FOREIGN KEY (game_id) REFERENCES game(id) ON DELETE CASCADE,
+    FOREIGN KEY (scoring_team_id) REFERENCES team(id) ON DELETE CASCADE
+);
+</code></pre>
+<h3 id="player-game-stats-model">Player Game Stats Model</h3>
+<p>Stores the aggregated statistics for a single player in a single game. This table is the source for box scores.</p>
+<pre><code class="language-sql">CREATE TABLE player_game_stats (
+    id INTEGER PRIMARY KEY,
+    game_id INTEGER NOT NULL,
+    player_id INTEGER NOT NULL,
+    team_id INTEGER NOT NULL,
+    -- Passing Stats
+    pass_attempts INTEGER DEFAULT 0,
+    pass_completions INTEGER DEFAULT 0,
+    pass_yards INTEGER DEFAULT 0,
+    pass_touchdowns INTEGER DEFAULT 0,
+    pass_interceptions INTEGER DEFAULT 0,
+    -- Rushing Stats
+    rush_attempts INTEGER DEFAULT 0,
+    rush_yards INTEGER DEFAULT 0,
+    rush_touchdowns INTEGER DEFAULT 0,
+    -- Receiving Stats
+    receptions INTEGER DEFAULT 0,
+    receiving_yards INTEGER DEFAULT 0,
+    receiving_touchdowns INTEGER DEFAULT 0,
+    -- Defensive Stats
+    tackles INTEGER DEFAULT 0,
+    sacks DECIMAL(3,1) DEFAULT 0.0,
+    interceptions_caught INTEGER DEFAULT 0,
+    -- Special Teams Stats
+    field_goals_made INTEGER DEFAULT 0,
+    field_goals_attempted INTEGER DEFAULT 0,
+    punts INTEGER DEFAULT 0,
+    punt_yards INTEGER DEFAULT 0,
+    -- Return Stats
+    kick_returns INTEGER DEFAULT 0,
+    kick_return_yards INTEGER DEFAULT 0,
+    kick_return_touchdowns INTEGER DEFAULT 0,
+    punt_returns INTEGER DEFAULT 0,
+    punt_return_yards INTEGER DEFAULT 0,
+    punt_return_touchdowns INTEGER DEFAULT 0,
+    UNIQUE(game_id, player_id),
+    FOREIGN KEY (game_id) REFERENCES game(id) ON DELETE CASCADE,
+    FOREIGN KEY (player_id) REFERENCES player(id) ON DELETE CASCADE,
+    FOREIGN KEY (team_id) REFERENCES team(id) ON DELETE CASCADE
+);
+</code></pre>
+
+  <br>
+    
+
+    
+    
+      
+    
+
+  <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
+    
+    <div class="wm-article-nav pull-right">
+      <a href="../technical_info/" class="btn btn-xs btn-default pull-right">
+        Next
+        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+      </a>
+      <a href="../technical_info/" class="btn btn-xs btn-link">
+        Technical info
+      </a>
+    </div>
+    
+    <div class="wm-article-nav">
+      <a href="../architecture/" class="btn btn-xs btn-default pull-left">
+        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        Previous</a><a href="../architecture/" class="btn btn-xs btn-link">
+        Architecture Overview
+      </a>
+    </div>
+    
+  </div>
+
+    <br>
+</div>
+
+<footer class="col-md-12 wm-page-content">
+  <p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a> using <a href="None">Windmill Dark</a> theme by None (noraj).</p>
+</footer>
+
+</body>
+</html>

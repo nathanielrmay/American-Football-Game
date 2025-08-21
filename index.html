@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+  
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="None">
+    
+    
+    <link rel="shortcut icon" href="./img/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <title>Football Sim</title>
+    <link href="./css/bootstrap-3.3.7.min.css" rel="stylesheet">
+    <link href="./css/font-awesome-4.7.0.css" rel="stylesheet">
+    <link href="./css/base.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/highlight.css">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="./js/jquery-3.2.1.min.js"></script>
+    <script src="./js/bootstrap-3.3.7.min.js"></script>
+    <script src="./js/highlight.pack.js"></script>
+    
+      <script src="./js/elasticlunr.min.js"></script>
+    
+    <base target="_top">
+    <script>
+      var base_url = '.';
+      var is_top_frame = (window === window.parent);
+        
+        var pageToc = [
+          {title: "Football Sim", url: "#_top", children: [
+          ]},
+        ];
+
+    </script>
+    <script src="./js/base.js"></script>
+      <script src="search/main.js"></script> 
+</head>
+
+<body>
+<script>
+if (is_top_frame) { $('body').addClass('wm-top-page'); }
+</script>
+
+<nav class="navbar wm-page-top-frame">
+  <div class="container-fluid wm-top-container">
+    
+    <div class="wm-top-tool pull-right wm-vcenter">
+      <form class="dropdown wm-vcentered" id="wm-search-form" action="./search.html">
+        
+        <button id="wm-search-show" class="btn btn-sm btn-default" type="submit"
+          ><i class="fa fa-search" aria-hidden="true"></i></button>
+
+        <div class="input-group input-group-sm wm-top-search">
+          <input type="text" name="q" class="form-control" id="mkdocs-search-query" placeholder="Search" autocomplete="off">
+          <span class="input-group-btn" role="search">
+            
+            <button class="btn btn-default dropdown-toggle collapse" data-toggle="dropdown" type="button"><span class="caret"></span></button>
+            <ul id="mkdocs-search-results" class="dropdown-menu dropdown-menu-right"></ul>
+            <button id="wm-search-go" class="btn btn-default" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+          </span>
+        </div>
+      </form>
+    </div>
+
+    
+    <div class="wm-top-tool wm-vcenter pull-right wm-small-left">
+      <button id="wm-toc-button" type="button" class="btn btn-sm btn-default wm-vcentered"><i class="fa fa-th-list" aria-hidden="true"></i></button>
+    </div>
+
+    
+    
+
+    
+    <a href="" class="wm-top-brand wm-top-link wm-vcenter">
+      
+      <div class="wm-top-title">
+        Football Sim<br>
+        
+      </div>
+    </a>
+  </div>
+</nav>
+
+  <div id="main-content" class="wm-page-top-frame">
+    
+<nav class="wm-toc-pane">
+  
+  <ul class="wm-toctree">
+        <li class="wm-toc-li wm-toc-lev1 "><a href="" class="wm-article-link wm-toc-text">Football Sim</a>
+</li>
+        <li class="wm-toc-li wm-toc-lev1 wm-toc-opener"><span class="wm-toc-text">Project</span>
+</li>
+<li class="wm-toc-li-nested collapse">
+  <ul class="wm-toctree">
+      <li class="wm-toc-li wm-toc-lev2 "><a href="project/inspirations/" class="wm-article-link wm-toc-text">Inspirations</a>
+</li>
+      <li class="wm-toc-li wm-toc-lev2 "><a href="project/mvp/" class="wm-article-link wm-toc-text">Minimum Viable Product</a>
+</li>
+      <li class="wm-toc-li wm-toc-lev2 "><a href="project/roadmap/" class="wm-article-link wm-toc-text">Development Roadmap</a>
+</li>
+      <li class="wm-toc-li wm-toc-lev2 "><a href="project/vision/" class="wm-article-link wm-toc-text">Vision</a>
+</li>
+      <li class="wm-toc-li wm-toc-lev2 wm-toc-opener"><span class="wm-toc-text">Milestones</span>
+</li>
+<li class="wm-toc-li-nested collapse">
+  <ul class="wm-toctree">
+      <li class="wm-toc-li wm-toc-lev3 "><a href="project/milestones/milestone_1/" class="wm-article-link wm-toc-text">Milestone 1: Foundational Scaffolding</a>
+</li>
+      <li class="wm-toc-li wm-toc-lev3 "><a href="project/milestones/milestone_2/" class="wm-article-link wm-toc-text">Milestone 2</a>
+</li>
+      <li class="wm-toc-li wm-toc-lev3 "><a href="project/milestones/milestone_3/" class="wm-article-link wm-toc-text">Milestone 3</a>
+</li>
+      <li class="wm-toc-li wm-toc-lev3 "><a href="project/milestones/milestone_4/" class="wm-article-link wm-toc-text">Milestone 4</a>
+</li>
+      <li class="wm-toc-li wm-toc-lev3 "><a href="project/milestones/milestone_5/" class="wm-article-link wm-toc-text">Milestone 5</a>
+</li>
+      <li class="wm-toc-li wm-toc-lev3 "><a href="project/milestones/milestone_6/" class="wm-article-link wm-toc-text">Milestone 6</a>
+</li>
+      <li class="wm-toc-li wm-toc-lev3 "><a href="project/milestones/milestone_7/" class="wm-article-link wm-toc-text">Milestone 7</a>
+</li>
+      <li class="wm-toc-li wm-toc-lev3 "><a href="project/milestones/milestone_template/" class="wm-article-link wm-toc-text">Milestone X: [Milestone Title]</a>
+</li>
+  </ul>
+</li>
+
+  </ul>
+</li>
+
+        <li class="wm-toc-li wm-toc-lev1 wm-toc-opener"><span class="wm-toc-text">Reference</span>
+</li>
+<li class="wm-toc-li-nested collapse">
+  <ul class="wm-toctree">
+      <li class="wm-toc-li wm-toc-lev2 "><a href="reference/features/" class="wm-article-link wm-toc-text">Feature Catalog</a>
+</li>
+      <li class="wm-toc-li wm-toc-lev2 "><a href="reference/glossary/" class="wm-article-link wm-toc-text">Glossary of Terms</a>
+</li>
+      <li class="wm-toc-li wm-toc-lev2 "><a href="reference/planning_notes/" class="wm-article-link wm-toc-text">Planning notes</a>
+</li>
+      <li class="wm-toc-li wm-toc-lev2 "><a href="reference/research_notes/" class="wm-article-link wm-toc-text">Research notes</a>
+</li>
+  </ul>
+</li>
+
+        <li class="wm-toc-li wm-toc-lev1 wm-toc-opener"><span class="wm-toc-text">Technical</span>
+</li>
+<li class="wm-toc-li-nested collapse">
+  <ul class="wm-toctree">
+      <li class="wm-toc-li wm-toc-lev2 "><a href="technical/architecture/" class="wm-article-link wm-toc-text">Architecture Overview</a>
+</li>
+      <li class="wm-toc-li wm-toc-lev2 "><a href="technical/data_models/" class="wm-article-link wm-toc-text">Football Simulation Game - Data Models</a>
+</li>
+      <li class="wm-toc-li wm-toc-lev2 "><a href="technical/technical_info/" class="wm-article-link wm-toc-text">Technical info</a>
+</li>
+  </ul>
+</li>
+
+  </ul>
+</nav>
+
+    <div class="wm-content-pane">
+      <iframe class="wm-article" name="article"></iframe>
+    </div>
+  </div>
+
+<div class="container-fluid wm-page-content">
+  <a name="_top"></a>
+    
+
+    
+    
+      
+    
+
+  <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
+    
+    <div class="wm-article-nav pull-right">
+      <a href="project/inspirations/" class="btn btn-xs btn-default pull-right">
+        Next
+        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+      </a>
+      <a href="project/inspirations/" class="btn btn-xs btn-link">
+        Inspirations
+      </a>
+    </div>
+    
+  </div>
+
+    
+
+    <h1 id="football-sim">Football Sim</h1>
+<p>Imagine a text-based sports simulation where every season unfolds like a captivating novel. Our game uses advanced AI to generate dynamic play-by-play, craft unique athlete personalities that drive locker room drama and media firestorms, and even create vivid images for characters and pivotal game moments. It's not just about stats; it's about building your dynasty through an endlessly evolving, character-driven narrative. We're putting the 'story' back in 'sports story' for a truly immersive experience.</p>
+<p>This is the planning document(s) for a deep American football simulation and role-playing game where players manage teams across multiple tiered leagues, focusing on strategic playbook creation, statistical analysis, and narrative-driven player and owner interactions, using AI to produce truly unique content that drive immersion.</p>
+<p>This will be strictly, 'for fun' or a 'hobby project', for me to connect with my nephews and practice my trade of software development and one of my longest standing interests, data and analytics. I will release all of my own code in a FOSS way. The game will likely require a paid llm api key of some sort to run, i can not provide those for anyone else, the user will have to supply their own. If the game were to gather the required audience I might offer to host leagues for some small fee.</p>
+<p>The following documents provide a suggested order for reading and understanding the project.</p>
+<ul>
+<li><strong><a href="project/vision/">Vision</a></strong>: Overall game concept.</li>
+<li><strong><a href="project/mvp/">MVP</a></strong>: The definition of the Minimum Viable Product.</li>
+<li><strong><a href="project/roadmap/">Roadmap</a></strong>: Milestones leading to the MVP.</li>
+<li><strong><a href="project/milestones/">Milestones</a></strong>: Documents for each specific milestone.</li>
+<li><strong><a href="technical/technical_info/">Technical Information</a></strong>: Technical requirements, stack, and data storage strategy.</li>
+<li><strong><a href="project/inspirations/">Inspirations</a></strong>: Games and ideas that inspire this project.</li>
+<li><strong><a href="reference/features/">Feature Catalog</a></strong>: A categorized list of potential features.</li>
+<li><strong><a href="technical/architecture/">Architecture</a></strong>: High-level system architecture.</li>
+<li><strong><a href="technical/data_models/">Data Models</a></strong>: Detailed database schema and data models.</li>
+<li><strong><a href="reference/glossary/">Glossary</a></strong>: Glossary of key terms and concepts.</li>
+<li><strong><a href="reference/research_notes/">Research Notes</a></strong>: Useful research and findings.</li>
+<li><strong><a href="reference/planning_notes/">Planning Notes</a></strong>: Raw, unstructured planning notes.</li>
+</ul>
+
+  <br>
+    
+
+    
+    
+      
+    
+
+  <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
+    
+    <div class="wm-article-nav pull-right">
+      <a href="project/inspirations/" class="btn btn-xs btn-default pull-right">
+        Next
+        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+      </a>
+      <a href="project/inspirations/" class="btn btn-xs btn-link">
+        Inspirations
+      </a>
+    </div>
+    
+  </div>
+
+    <br>
+</div>
+
+<footer class="col-md-12 wm-page-content">
+  <p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a> using <a href="None">Windmill Dark</a> theme by None (noraj).</p>
+</footer>
+
+</body>
+</html>
+<!--
+MkDocs version : 1.6.1
+Build Date UTC : 2025-08-21 20:50:44.424642+00:00
+-->
