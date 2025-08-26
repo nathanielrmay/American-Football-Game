@@ -33,12 +33,12 @@ The `league` model is designed for high configurability:
 The `team` is the central operational entity for the user.
 - **Identity**: Defined by branding (name, colors, logo) and its home `city_id`, which anchors it geographically and ties it into the cascading modifier system.
 - **Affiliation**: A team can exist independently or belong to one or more leagues via the `team_league` table, including assignments to specific divisions/conferences.
-- **Personnel**: A team's roster will be composed of `player` entities. Leadership roles (owner, coach) are currently placeholders that will eventually link to `individual` records.
+- **Personnel**: A team's roster will be composed of `player` entities. Leadership roles (owner, coach) link to the `staff` table, which in turn connects to an `individual` record, allowing access to their specific attributes and personality traits.
 
 ### People & Roles
 This system is built on the principle of **Composition Over Inheritance**.
 - **Individual**: The foundational model for every person. It stores universal data: identity (`first_name`, `last_name`), origin (`home_city_id`), and a suite of personality ratings (`desire_to_win`, `greed`, `loyalty`) that will drive the AI for decision-making and narrative events.
-- **Player**: A specialized role linked to an `individual`. This table stores all data relevant to on-field performance: physical and mental athletic ratings, status, and links to statistical history.
+- **Player**: A specialized role linked to an `individual`. This table stores all data relevant to on-field performance: physical and mental athletic ratings, status, and links to their career statistics via the `player_stats_history` table.
 
 ---
 
@@ -49,7 +49,7 @@ This section outlines the conceptual model for simulating a single play. The des
 ### 1. The Field Model
 
 A virtual representation of the football field is required. It will be a 2D coordinate grid.
-- **Dimensions**: 120 yards long (including two 10-yard endzones) by 53.33 yards wide.
+- **Dimensions**: 120 yards long (including two 10-yard endzones) by 53 1/3 yards wide.
 - **Coordinates**: A coordinate system (e.g., `x, y`) will track the precise location of every player and the ball. The `x` axis represents the length of the field (yard lines), and the `y` axis represents the width (from sideline to sideline).
 - **Game State Context**: The field model also includes critical game state information, such as the line of scrimmage, the first down marker, and hash mark location of the ball.
 
@@ -92,7 +92,7 @@ If a condition is met, the loop terminates. Otherwise, the next tick begins.
 
 1.  **Determine Final Result**: The engine calculates the final outcome (e.g., 5-yard gain).
 2.  **Update Game State**: The down, distance, and ball position are updated for the next play.
-3.  **Record Statistics**: Relevant stats are recorded in the `player_stats_history` table for the players involved.
+3.  **Record Statistics**: Relevant stats (e.g., passing yards, tackles) are recorded for the players involved, which will be aggregated into the `player_game_stats` table at the conclusion of the game.
 
 ---
 
@@ -108,3 +108,5 @@ To fulfill the roadmap goal of entity generation, the architecture uses a config
     -   **Scope**: Configurations can be applied globally (`world`), to a specific `league`, or to a `country`, allowing for regional differences in generated talent.
     -   **Time**: Each configuration has a `start_year` and optional `end_year`, enabling the types of players generated to evolve as the game progresses through different eras.
     -   **Frequency**: A `spawn_weight` attribute determines the relative probability of an archetype appearing, making it possible to have rare or common types of players.
+
+In practice, the system would use a `generation_config` to determine *that* it should generate a 'Pocket Passer QB' for a specific league, then use the `archetype` and `archetype_attribute` tables to find the baseline stats (e.g., `throwing_accuracy` = 85), and finally apply randomization to create a unique player.

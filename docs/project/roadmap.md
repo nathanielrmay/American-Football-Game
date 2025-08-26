@@ -2,6 +2,8 @@
 
 This document outlines the major milestones for building the football simulation game. Each milestone builds upon the previous one, progressively adding layers of functionality to create a complete simulation experience.
 
+The first six milestones collectively represent the work required to deliver the core features outlined in the **[Minimum Viable Product (MVP)](mvp.md)**. Milestone 7, the Off-Season Simulation, will be the first major feature implemented after the MVP is complete, paving the way for long-term replayability and the future introduction of role-playing elements.
+
 ## Table of Contents
 - [Milestone 1: Foundational Scaffolding](#milestone-1-foundational-scaffolding)
 - [Milestone 2: Entity Generation](#milestone-2-entity-generation)
@@ -19,7 +21,7 @@ This document outlines the major milestones for building the football simulation
 This initial phase involves setting up the core project structure, database, and a basic interface for developer interaction. It's about building the foundation upon which all other features will be built.
 
 ### Discussion
-The primary goal is to translate the schemas in `plan/data_models.md` into a functioning database. A basic interface (likely a command-line tool or simple test harness) will be needed to perform CRUD (Create, Read, Update, Delete) operations on core tables like `world`, `country`, and `league`. This allows for initial data setup and testing.
+The primary goal is to translate the schemas in `technical/data_models.md` into a functioning database. A basic interface (likely a command-line tool or simple test harness) will be needed to perform CRUD (Create, Read, Update, Delete) operations on core tables like `world`, `country`, and `league`. This allows for initial data setup and testing.
 
 ### Observations
 - The interface at this stage is purely for development and testing, not for end-users.
@@ -75,7 +77,7 @@ Expand the simulation to cover a full game, including clock management, quarters
 A "game loop" will wrap the "drive simulation" logic. This top-level loop is responsible for managing the game clock, advancing it based on the outcome and duration of each play. It will handle events like the opening kickoff, halftime, quarter breaks, and the final whistle.
 
 ### Observations
-- **What happens between games?** After a game concludes, a post-game process must run. This involves finalizing statistics, updating team win/loss records, and potentially triggering narrative events or player morale changes.
+- **What happens between games?** After a game concludes, a post-game process must run. This involves finalizing statistics, updating team win/loss records, and laying the groundwork for the narrative engine by triggering basic player morale changes.
 
 ## Milestone 6: Season Simulation
 

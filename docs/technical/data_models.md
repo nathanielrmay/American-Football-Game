@@ -1,6 +1,6 @@
 # Football Simulation Game - Data Models
 
-**MAINTENANCE NOTE**: This is the technical source of truth for the database schema. Any changes made to the tables in this document *must* be reflected conceptually in its non-technical counterpart, `plan/10_data_model.min.md`, to keep both documents synchronized.
+
 
 ## Table of Contents
 
@@ -535,20 +535,45 @@ CREATE TABLE team_artwork (
 ```
 
 ##### Team Roster
-
+(Manages which players are on the team and their current status)
 ```sql
 CREATE TABLE team_roster (
     id INTEGER PRIMARY KEY,
     team_id INTEGER NOT NULL,
     player_id INTEGER NOT NULL,
-    position_id INTEGER NOT NULL,
-    depth_chart_order INTEGER NOT NULL,
     status VARCHAR(50) NOT NULL DEFAULT 'active', -- e.g., 'active', 'injured_reserve'
     UNIQUE(team_id, player_id),
-    UNIQUE(team_id, position_id, depth_chart_order),
     FOREIGN KEY (team_id) REFERENCES team(id) ON DELETE CASCADE,
+    FOREIGN KEY (player_id) REFERENCES player(id) ON DELETE CASCADE
+);
+```
+
+##### Depth Charts
+(Defines the strategic packages or formations a team uses)
+```sql
+CREATE TABLE depth_chart (
+    id INTEGER PRIMARY KEY,
+    team_id INTEGER NOT NULL,
+    name VARCHAR(100) NOT NULL, -- e.g., "Base Offense", "Nickel Defense"
+    is_default BOOLEAN NOT NULL DEFAULT FALSE,
+    FOREIGN KEY (team_id) REFERENCES team(id) ON DELETE CASCADE,
+    UNIQUE(team_id, name)
+);
+```
+
+##### Depth Chart Positions
+(Assigns players from the roster to specific positions and depths within a strategic package)
+```sql
+CREATE TABLE depth_chart_position (
+    id INTEGER PRIMARY KEY,
+    depth_chart_id INTEGER NOT NULL,
+    player_id INTEGER NOT NULL,
+    position_id INTEGER NOT NULL,
+    depth_order INTEGER NOT NULL,
+    FOREIGN KEY (depth_chart_id) REFERENCES depth_chart(id) ON DELETE CASCADE,
     FOREIGN KEY (player_id) REFERENCES player(id) ON DELETE CASCADE,
-    FOREIGN KEY (position_id) REFERENCES player_position(id) ON DELETE RESTRICT
+    FOREIGN KEY (position_id) REFERENCES player_position(id) ON DELETE RESTRICT,
+    UNIQUE(depth_chart_id, position_id, depth_order)
 );
 ```
 
@@ -768,12 +793,12 @@ CREATE TABLE player_position (
     id INTEGER PRIMARY KEY,
     name VARCHAR(50) NOT NULL UNIQUE,
     abbreviation VARCHAR(5) NOT NULL UNIQUE,
-    unit VARCHAR(10) NOT NULL -- 'offense', 'defense', or 'special_teams'
+    position_group VARCHAR(10) NOT NULL -- e.g., 'QB', 'RB', 'WR', 'OL', 'DL', 'LB', 'DB', 'K', 'P'
 );
 ```
 
 #### Constraint/Relationship notes
-- `unit`: A categorical assignment to 'offense', 'defense', or 'special_teams' for easier logic filtering.
+- `position_group`: A categorical assignment for easier logic filtering and AI substitutions (e.g., 'QB', 'RB', 'WR', 'OL', 'DL', 'LB', 'DB', 'K', 'P').
 
 ### Player Model
 

@@ -6,9 +6,16 @@ This document outlines the core vision for Football Sim, a game that blends deep
 
 The player experience is centered around the life and career of a professional in the world of American football.
 
-### Core Role: The Front Office Professional
+### Core Role: A Career in Football
+The player's experience is centered on a character navigating a career within the world of American football. While the primary gameplay focuses on management roles like a General Manager or Team Owner, the game fully supports other playstyles. Players can act as a hands-off 'commissioner' to simply observe the simulation unfold, or even experience periods of unemployment due to personal choice or professional setbacks. Your story is defined by your character's journey, not just their job title.
 
-The player assumes the role of a character working in a football team's front office. While the core gameplay involves team management, the player will also navigate personal and professional challenges, shaping their character's story. The only predetermined choice is the character's profession; all other aspects of their life are under the player's control.
+### Measuring Success: The Legacy Score
+In Football Sim, success is measured by more than just championships. The ultimate goal is to build a lasting legacy, which is represented by a comprehensive **Legacy Score**. This score provides a tangible way to measure success and compare the outcomes of different playthroughs, and it's composed of two core components:
+
+*   **Professional Legacy:** This is a measure of your success in the football world. It includes traditional metrics like wins and losses, championships won, financial management, and the growth of your team's prestige.
+*   **Personal Legacy:** This measures your success as a person. It is influenced by the strength of your relationships with family and friends, your personal wealth, your health, and whether you successfully create a lineage to carry on your name.
+
+This dual system allows for multiple paths to victory. A player could become a ruthless, championship-winning tyrant with a broken family life, or a beloved figure who builds a dynasty of both football and family, each resulting in a unique Legacy Score.
 
 ### Life Simulation and Legacy
 
@@ -76,7 +83,7 @@ Offseason
 
 ### The Weekly Cycle (In-Season)
 
-While the annual cycle dictates the high-level progression, gameplay during the season follows a weekly, turn-based loop. This structure provides regular opportunities for both team management and personal role-playing decisions. The period between each game is a "turn" that proceeds through these phases:
+While the annual cycle dictates the world's high-level progression, the in-season period is structured around a weekly, turn-based loop. This provides the cadence for team management, game events, and the personal-life decisions the player may face.
 
 ```
 Start of Week (Post-Game)         -->
@@ -91,6 +98,6 @@ Next Game
 
 ### Gameplay Pacing and Player Agency
 
-A single season can be simulated in approximately 20 minutes for players who wish to advance quickly. However, the game is designed to be enjoyed at a slower pace. Player agency is deep, covering team management tasks like designing playbooks, setting ticket prices, and running marketing campaigns.
+A key design goal is to allow a single season to be simulated in approximately 20 minutes for players who wish to advance quickly, ensuring a fast and fluid experience for those who prefer it. However, the game is designed to be enjoyed at a slower pace. Player agency is deep, covering team management tasks like designing playbooks, setting ticket prices, and running marketing campaigns.
 
 This agency also extends to the character's personal life. Players will face numerous non-football decisions that shape their story. Just like their professional duties, these choices can be addressed with minimal thought to advance the timeline, or they can be approached tactically, requiring careful consideration of their cascading consequences.
