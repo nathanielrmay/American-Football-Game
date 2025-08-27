@@ -1,9 +1,5 @@
-site_name: Football Sim
-theme:
-  name: windmill-dark
-
+site_name: American Football Game
 
 plugins:
   - search
   - awesome-pages
-

@@ -10,16 +10,16 @@ This is a hobby project, created for fun and to connect with my nephews and prac
 
 The following documents provide a suggested order for reading and understanding the project.
 
-- **[Vision](project/vision.md)**: Overall game concept.
-- **[MVP](project/mvp.md)**: The definition of the Minimum Viable Product.
-- **[Roadmap](project/roadmap.md)**: Milestones leading to the MVP.
-- **[Milestones](project/milestones/)**: Documents for each specific milestone.
+- **[Vision](vision.md)**: Overall game concept.
+- **[MVP](roadmap/mvp.md)**: The definition of the Minimum Viable Product.
+- **[Roadmap](roadmap/roadmap.md)**: Milestones leading to the MVP.
+- **[Milestones](roadmap/milestones/)**: Documents for each specific milestone.
 - **[Technical Information](technical/technical_info.md)**: Technical requirements, stack, and data storage strategy.
-- **[Inspirations](project/inspirations.md)**: Games and ideas that inspire this project.
-- **[Feature Catalog](reference/features.md)**: A categorized list of potential features.
+- **[Inspirations](roadmap/inspirations.md)**: Games and ideas that inspire this project.
+- **[Feature Catalog](notes/features.md)**: A categorized list of potential features.
 - **[Architecture](technical/architecture.md)**: High-level system architecture.
 - **[Data Models](technical/data_models.md)**: Detailed database schema and data models.
-- **[Glossary](reference/glossary.md)**: Glossary of key terms and concepts.
-- **[Research Notes](reference/research_notes.md)**: Useful research and findings.
-- **[Planning Notes](reference/planning_notes.md)**: Raw, unstructured planning notes.
+- **[Glossary](notes/glossary.md)**: Glossary of key terms and concepts.
+- **[Research Notes](notes/research_notes.md)**: Useful research and findings.
+- **[Planning Notes](notes/planning_notes.md)**: Raw, unstructured planning notes.
 
