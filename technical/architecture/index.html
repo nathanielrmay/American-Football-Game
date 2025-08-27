@@ -119,17 +119,17 @@ if (is_top_frame) { $('body').addClass('wm-top-page'); }
 <p>The <code>team</code> is the central operational entity for the user.
 - <strong>Identity</strong>: Defined by branding (name, colors, logo) and its home <code>city_id</code>, which anchors it geographically and ties it into the cascading modifier system.
 - <strong>Affiliation</strong>: A team can exist independently or belong to one or more leagues via the <code>team_league</code> table, including assignments to specific divisions/conferences.
-- <strong>Personnel</strong>: A team's roster will be composed of <code>player</code> entities. Leadership roles (owner, coach) are currently placeholders that will eventually link to <code>individual</code> records.</p>
+- <strong>Personnel</strong>: A team's roster will be composed of <code>player</code> entities. Leadership roles (owner, coach) link to the <code>staff</code> table, which in turn connects to an <code>individual</code> record, allowing access to their specific attributes and personality traits.</p>
 <h3 id="people-roles">People &amp; Roles</h3>
 <p>This system is built on the principle of <strong>Composition Over Inheritance</strong>.
 - <strong>Individual</strong>: The foundational model for every person. It stores universal data: identity (<code>first_name</code>, <code>last_name</code>), origin (<code>home_city_id</code>), and a suite of personality ratings (<code>desire_to_win</code>, <code>greed</code>, <code>loyalty</code>) that will drive the AI for decision-making and narrative events.
-- <strong>Player</strong>: A specialized role linked to an <code>individual</code>. This table stores all data relevant to on-field performance: physical and mental athletic ratings, status, and links to statistical history.</p>
+- <strong>Player</strong>: A specialized role linked to an <code>individual</code>. This table stores all data relevant to on-field performance: physical and mental athletic ratings, status, and links to their career statistics via the <code>player_stats_history</code> table.</p>
 <hr />
 <h2 id="simulation-engine-architecture">Simulation Engine Architecture</h2>
 <p>This section outlines the conceptual model for simulating a single play. The design is a discrete, tick-based system where player actions are resolved in small time increments.</p>
 <h3 id="1-the-field-model">1. The Field Model</h3>
 <p>A virtual representation of the football field is required. It will be a 2D coordinate grid.
-- <strong>Dimensions</strong>: 120 yards long (including two 10-yard endzones) by 53.33 yards wide.
+- <strong>Dimensions</strong>: 120 yards long (including two 10-yard endzones) by 53 1/3 yards wide.
 - <strong>Coordinates</strong>: A coordinate system (e.g., <code>x, y</code>) will track the precise location of every player and the ball. The <code>x</code> axis represents the length of the field (yard lines), and the <code>y</code> axis represents the width (from sideline to sideline).
 - <strong>Game State Context</strong>: The field model also includes critical game state information, such as the line of scrimmage, the first down marker, and hash mark location of the ball.</p>
 <h3 id="2-single-play-simulation-lifecycle">2. Single Play Simulation Lifecycle</h3>
@@ -176,7 +176,7 @@ if (is_top_frame) { $('body').addClass('wm-top-page'); }
 <ol>
 <li><strong>Determine Final Result</strong>: The engine calculates the final outcome (e.g., 5-yard gain).</li>
 <li><strong>Update Game State</strong>: The down, distance, and ball position are updated for the next play.</li>
-<li><strong>Record Statistics</strong>: Relevant stats are recorded in the <code>player_stats_history</code> table for the players involved.</li>
+<li><strong>Record Statistics</strong>: Relevant stats (e.g., passing yards, tackles) are recorded for the players involved, which will be aggregated into the <code>player_game_stats</code> table at the conclusion of the game.</li>
 </ol>
 <hr />
 <h2 id="entity-generation-architecture">Entity Generation Architecture</h2>
@@ -197,6 +197,7 @@ if (is_top_frame) { $('body').addClass('wm-top-page'); }
 </ul>
 </li>
 </ol>
+<p>In practice, the system would use a <code>generation_config</code> to determine <em>that</em> it should generate a 'Pocket Passer QB' for a specific league, then use the <code>archetype</code> and <code>archetype_attribute</code> tables to find the baseline stats (e.g., <code>throwing_accuracy</code> = 85), and finally apply randomization to create a unique player.</p>
 
   <br>
     

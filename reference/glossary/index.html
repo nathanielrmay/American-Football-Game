@@ -114,7 +114,7 @@ if (is_top_frame) { $('body').addClass('wm-top-page'); }
 <hr />
 <h3 id="d">D</h3>
 <p><strong>Depth Chart</strong>
-: A hierarchical list that ranks players on a team by position to determine who starts and who serves as a backup. Managed in the <code>team_roster</code> table via the <code>depth_chart_order</code> field.</p>
+: A strategic document that arranges players from the team roster into specific positions and ranks (e.g., starter, backup) for a given situation or formation (like 'Shotgun Offense' or 'Nickel Defense'). A team can have multiple depth charts. Managed via the <code>depth_chart</code> and <code>depth_chart_position</code> tables.</p>
 <p><strong>Down</strong>
 : A single attempt (a play) by the offense to advance the football. The offense gets a series of four downs to gain at least ten yards. If successful, they earn a "first down" and a new set of four downs.</p>
 <p><strong>Drive</strong>
@@ -131,6 +131,8 @@ if (is_top_frame) { $('body').addClass('wm-top-page'); }
 : The base data model for every person in the game world. It stores universal data like name, birth date, and personality traits. Other models like <code>Player</code> or <code>Staff</code> link to an <code>Individual</code> record to add role-specific attributes.</p>
 <hr />
 <h3 id="l">L</h3>
+<p><strong>Legacy Score</strong>
+: The primary measurement of success in the game. It is a comprehensive score that combines a player's <strong>Professional Legacy</strong> (wins, championships, finances) with their <strong>Personal Legacy</strong> (relationships, family, health) to provide a holistic evaluation of their career and life.</p>
 <p><strong>Line of Scrimmage</strong>
 : An imaginary line across the width of the field where the football is placed at the beginning of a play. Neither the offense nor the defense can cross this line until the play begins.</p>
 <hr />

@@ -91,6 +91,7 @@ if (is_top_frame) { $('body').addClass('wm-top-page'); }
 
     <h1 id="development-roadmap">Development Roadmap</h1>
 <p>This document outlines the major milestones for building the football simulation game. Each milestone builds upon the previous one, progressively adding layers of functionality to create a complete simulation experience.</p>
+<p>The first six milestones collectively represent the work required to deliver the core features outlined in the <strong><a href="../mvp/">Minimum Viable Product (MVP)</a></strong>. Milestone 7, the Off-Season Simulation, will be the first major feature implemented after the MVP is complete, paving the way for long-term replayability and the future introduction of role-playing elements.</p>
 <h2 id="table-of-contents">Table of Contents</h2>
 <ul>
 <li><a href="#milestone-1-foundational-scaffolding">Milestone 1: Foundational Scaffolding</a></li>
@@ -106,7 +107,7 @@ if (is_top_frame) { $('body').addClass('wm-top-page'); }
 <h3 id="explanation">Explanation</h3>
 <p>This initial phase involves setting up the core project structure, database, and a basic interface for developer interaction. It's about building the foundation upon which all other features will be built.</p>
 <h3 id="discussion">Discussion</h3>
-<p>The primary goal is to translate the schemas in <code>plan/data_models.md</code> into a functioning database. A basic interface (likely a command-line tool or simple test harness) will be needed to perform CRUD (Create, Read, Update, Delete) operations on core tables like <code>world</code>, <code>country</code>, and <code>league</code>. This allows for initial data setup and testing.</p>
+<p>The primary goal is to translate the schemas in <code>technical/data_models.md</code> into a functioning database. A basic interface (likely a command-line tool or simple test harness) will be needed to perform CRUD (Create, Read, Update, Delete) operations on core tables like <code>world</code>, <code>country</code>, and <code>league</code>. This allows for initial data setup and testing.</p>
 <h3 id="observations">Observations</h3>
 <ul>
 <li>The interface at this stage is purely for development and testing, not for end-users.</li>
@@ -154,7 +155,7 @@ if (is_top_frame) { $('body').addClass('wm-top-page'); }
 <p>A "game loop" will wrap the "drive simulation" logic. This top-level loop is responsible for managing the game clock, advancing it based on the outcome and duration of each play. It will handle events like the opening kickoff, halftime, quarter breaks, and the final whistle.</p>
 <h3 id="observations_4">Observations</h3>
 <ul>
-<li><strong>What happens between games?</strong> After a game concludes, a post-game process must run. This involves finalizing statistics, updating team win/loss records, and potentially triggering narrative events or player morale changes.</li>
+<li><strong>What happens between games?</strong> After a game concludes, a post-game process must run. This involves finalizing statistics, updating team win/loss records, and laying the groundwork for the narrative engine by triggering basic player morale changes.</li>
 </ul>
 <h2 id="milestone-6-season-simulation">Milestone 6: Season Simulation</h2>
 <h3 id="explanation_5">Explanation</h3>

@@ -75,7 +75,7 @@ if (is_top_frame) { $('body').addClass('wm-top-page'); }
         <i class="fa fa-chevron-right" aria-hidden="true"></i>
       </a>
       <a href="../technical_info/" class="btn btn-xs btn-link">
-        Technical info
+        Technology Stack
       </a>
     </div>
     
@@ -92,7 +92,6 @@ if (is_top_frame) { $('body').addClass('wm-top-page'); }
     
 
     <h1 id="football-simulation-game-data-models">Football Simulation Game - Data Models</h1>
-<p><strong>MAINTENANCE NOTE</strong>: This is the technical source of truth for the database schema. Any changes made to the tables in this document <em>must</em> be reflected conceptually in its non-technical counterpart, <code>plan/10_data_model.min.md</code>, to keep both documents synchronized.</p>
 <h2 id="table-of-contents">Table of Contents</h2>
 <ul>
 <li><a href="#core-world--system-models">Core World &amp; System Models</a></li>
@@ -545,18 +544,40 @@ if (is_top_frame) { $('body').addClass('wm-top-page'); }
 );
 </code></pre>
 <h5 id="team-roster">Team Roster</h5>
+<p>(Manages which players are on the team and their current status)</p>
 <pre><code class="language-sql">CREATE TABLE team_roster (
     id INTEGER PRIMARY KEY,
     team_id INTEGER NOT NULL,
     player_id INTEGER NOT NULL,
-    position_id INTEGER NOT NULL,
-    depth_chart_order INTEGER NOT NULL,
     status VARCHAR(50) NOT NULL DEFAULT 'active', -- e.g., 'active', 'injured_reserve'
     UNIQUE(team_id, player_id),
-    UNIQUE(team_id, position_id, depth_chart_order),
     FOREIGN KEY (team_id) REFERENCES team(id) ON DELETE CASCADE,
+    FOREIGN KEY (player_id) REFERENCES player(id) ON DELETE CASCADE
+);
+</code></pre>
+<h5 id="depth-charts">Depth Charts</h5>
+<p>(Defines the strategic packages or formations a team uses)</p>
+<pre><code class="language-sql">CREATE TABLE depth_chart (
+    id INTEGER PRIMARY KEY,
+    team_id INTEGER NOT NULL,
+    name VARCHAR(100) NOT NULL, -- e.g., &quot;Base Offense&quot;, &quot;Nickel Defense&quot;
+    is_default BOOLEAN NOT NULL DEFAULT FALSE,
+    FOREIGN KEY (team_id) REFERENCES team(id) ON DELETE CASCADE,
+    UNIQUE(team_id, name)
+);
+</code></pre>
+<h5 id="depth-chart-positions">Depth Chart Positions</h5>
+<p>(Assigns players from the roster to specific positions and depths within a strategic package)</p>
+<pre><code class="language-sql">CREATE TABLE depth_chart_position (
+    id INTEGER PRIMARY KEY,
+    depth_chart_id INTEGER NOT NULL,
+    player_id INTEGER NOT NULL,
+    position_id INTEGER NOT NULL,
+    depth_order INTEGER NOT NULL,
+    FOREIGN KEY (depth_chart_id) REFERENCES depth_chart(id) ON DELETE CASCADE,
     FOREIGN KEY (player_id) REFERENCES player(id) ON DELETE CASCADE,
-    FOREIGN KEY (position_id) REFERENCES player_position(id) ON DELETE RESTRICT
+    FOREIGN KEY (position_id) REFERENCES player_position(id) ON DELETE RESTRICT,
+    UNIQUE(depth_chart_id, position_id, depth_order)
 );
 </code></pre>
 <h4 id="constraintrelationship-notes_9">Constraint/Relationship notes</h4>
@@ -741,12 +762,12 @@ CREATE TABLE individual (
     id INTEGER PRIMARY KEY,
     name VARCHAR(50) NOT NULL UNIQUE,
     abbreviation VARCHAR(5) NOT NULL UNIQUE,
-    unit VARCHAR(10) NOT NULL -- 'offense', 'defense', or 'special_teams'
+    position_group VARCHAR(10) NOT NULL -- e.g., 'QB', 'RB', 'WR', 'OL', 'DL', 'LB', 'DB', 'K', 'P'
 );
 </code></pre>
 <h4 id="constraintrelationship-notes_16">Constraint/Relationship notes</h4>
 <ul>
-<li><code>unit</code>: A categorical assignment to 'offense', 'defense', or 'special_teams' for easier logic filtering.</li>
+<li><code>position_group</code>: A categorical assignment for easier logic filtering and AI substitutions (e.g., 'QB', 'RB', 'WR', 'OL', 'DL', 'LB', 'DB', 'K', 'P').</li>
 </ul>
 <h3 id="player-model">Player Model</h3>
 <p>The Player table contains all athletic attributes and game-specific information for an individual who is a football player. It links to an <code>Individual</code> record for personal details.</p>
@@ -1032,6 +1053,8 @@ CREATE TABLE individual (
     play_number INTEGER NOT NULL,
     offense_team_id INTEGER NOT NULL,
     defense_team_id INTEGER NOT NULL,
+    offense_play_design_id INTEGER,
+    defense_play_design_id INTEGER,
     quarter INTEGER NOT NULL,
     down INTEGER,
     distance INTEGER,
@@ -1044,13 +1067,16 @@ CREATE TABLE individual (
     created_date TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (game_id) REFERENCES game(id) ON DELETE CASCADE,
     FOREIGN KEY (offense_team_id) REFERENCES team(id) ON DELETE CASCADE,
-    FOREIGN KEY (defense_team_id) REFERENCES team(id) ON DELETE CASCADE
+    FOREIGN KEY (defense_team_id) REFERENCES team(id) ON DELETE CASCADE,
+    FOREIGN KEY (offense_play_design_id) REFERENCES play_design(id) ON DELETE SET NULL,
+    FOREIGN KEY (defense_play_design_id) REFERENCES play_design(id) ON DELETE SET NULL
 );
 </code></pre>
 <h4 id="constraintrelationship-notes_25">Constraint/Relationship notes</h4>
 <ul>
 <li><strong>Primary Key</strong>: <code>id</code> - Unique identifier for each play record.</li>
-<li><strong>Foreign Key</strong>: <code>game_id</code> - Links the play to the specific game it occurred in.</li>
+<li><strong>Foreign Keys</strong>: <code>game_id</code> links the play to the specific game it occurred in.</li>
+<li><strong>Play Calling</strong>: The <code>offense_play_design_id</code> and <code>defense_play_design_id</code> fields link to the specific plays called by each team's AI, creating a crucial record of strategic decisions versus outcomes. These are nullable to account for plays without a formal design (e.g., penalties before the snap).</li>
 <li><strong>Play Log</strong>: This table provides a complete, sequential record of a game's events, which can be used for box scores, recaps, and analysis.</li>
 <li><code>result_type</code>: A categorical description of the play (e.g., 'RUSH', 'PASS_COMPLETE', 'PASS_INCOMPLETE', 'PUNT', 'FIELD_GOAL_MADE', 'PENALTY').</li>
 <li><code>turnover_type</code>: Specifies the type of turnover, if any (e.g., 'INTERCEPTION', 'FUMBLE_LOST').</li>
@@ -1132,7 +1158,7 @@ CREATE TABLE individual (
         <i class="fa fa-chevron-right" aria-hidden="true"></i>
       </a>
       <a href="../technical_info/" class="btn btn-xs btn-link">
-        Technical info
+        Technology Stack
       </a>
     </div>
     

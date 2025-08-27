@@ -84,7 +84,7 @@ if (is_top_frame) { $('body').addClass('wm-top-page'); }
     
 
     <h1 id="feature-catalog">Feature Catalog</h1>
-<p>This document categorizes features into a MoSCoW matrix to guide development priorities and provides detailed descriptions of key game systems.</p>
+<p>This document uses a MoSCoW matrix to guide development priorities and describes key game systems in more detail.</p>
 <h2 id="moscow-prioritization">MoSCoW Prioritization</h2>
 <p>This section uses the MoSCoW method (Must-have, Should-have, Could-have, Won't-have) to prioritize features for the Minimum Viable Product (MVP) and beyond.</p>
 <h3 id="must-have-for-mvp">Must Have (for MVP)</h3>
@@ -95,29 +95,29 @@ if (is_top_frame) { $('body').addClass('wm-top-page'); }
 <li><strong>Simplified League Structure</strong>: A single, functional league with a generated schedule and a championship game.</li>
 <li><strong>Entity Generation</strong>: Logic to create new players and teams to populate the world, driven by <code>Archetype</code> and <code>Generation_Config</code> models.</li>
 <li><strong>Simplified Playbook System</strong>: Pre-set plays are used by AI coaches; no user-facing play editor.</li>
-<li><strong>Basic Financial Reporting</strong>: Generation of simple team financial reports.</li>
 <li><strong>Basic Developer Interface</strong>: A functional, likely command-line, interface to run simulations and browse NPCs.</li>
-<li><strong>World &amp; Economy Foundation</strong>: A functioning <code>World</code> model with a cascading economy (<code>Country</code>, <code>State</code>, <code>City</code>) to provide context.</li>
 </ul>
-<h3 id="should-have">Should Have</h3>
-<p>Important features that are not essential for the initial MVP but should be prioritized immediately after.</p>
+<h3 id="should-have-post-mvp-must-haves">Should Have (Post-MVP Must-Haves)</h3>
+<p>These features are essential for the complete game vision but will be prioritized for development immediately following the MVP.</p>
 <ul>
 <li><strong>Advanced Playbook System</strong>: A user-facing tool to create and edit detailed plays and formations.</li>
 <li><strong>Detailed Financial Model</strong>: Team budgets, player salaries, revenue from tickets and marketing, and operational expenses.</li>
+<li><strong>World &amp; Economy Foundation</strong>: A functioning <code>World</code> model with a cascading economy (<code>Country</code>, <code>State</code>, <code>City</code>) to provide context.</li>
+<li><strong>Basic Financial Reporting</strong>: Generation of simple team financial reports.</li>
 <li><strong>Player Progression &amp; Aging</strong>: A system for player attributes to develop and decline over their careers.</li>
 <li><strong>Core Off-Season Logic</strong>: Implementation of key off-season phases like player retirement and new player drafts.</li>
 <li><strong>LLM-Powered Narrative Engine</strong>: Use of an LLM to generate rich narrative content, including game summaries, player news (awards, injuries), dynamic rivalries, media interactions, and RPG-centric events.</li>
-<li><strong>Character Life-Sim</strong>: A system for managing the playable character's personal life, including relationships, health, and stress, with cascading effects on job performance.</li>
+<li><strong>Character Life-Sim</strong>: A system for managing the playable character's personal life, including relationships, health, and stress, with cascading effects on job performance and a direct impact on the character's <strong>Personal Legacy Score</strong>.</li>
+<li><strong>Generational Play</strong>: Ability to continue the game as the playable character's offspring after death or retirement, a core component of building a multi-generational <strong>Legacy Score</strong>.</li>
 <li><strong>Graphical User Interface (GUI)</strong>: A full graphical interface for team and league management.</li>
 <li><strong>Asynchronous Multiplayer</strong>: A "league hosting" service where multiple users manage teams in the same game world.</li>
 <li><strong>Advanced Scouting System</strong>: Detailed scouting reports, combine data, and discovery of hidden player potential.</li>
 <li><strong>In-depth Staff Roles</strong>: Hiring and managing of coaches, coordinators, and scouts who have their own attributes.</li>
 </ul>
-<h3 id="could-have">Could Have</h3>
-<p>Desirable features that would improve the game but are not a priority. These can be added in later versions if time permits.</p>
+<h3 id="could-have-desirable-extras">Could Have (Desirable Extras)</h3>
+<p>Desirable features that would improve the game but are not a priority for the initial full release.</p>
 <ul>
 <li><strong>Historical Modes</strong>: Ability to start simulations in past eras with historical data.</li>
-<li><strong>Generational Play</strong>: Ability to continue the game as the playable character's offspring after death or retirement.</li>
 </ul>
 <h3 id="wont-have-for-now">Won't Have (For Now)</h3>
 <p>Features explicitly excluded to prevent scope creep and maintain focus.</p>
@@ -133,10 +133,11 @@ if (is_top_frame) { $('body').addClass('wm-top-page'); }
 <h4 id="team-personnel">Team Personnel</h4>
 <ul>
 <li><strong>Players</strong>: The athletes who play in the games. They have detailed physical, mental, and skill-based attributes.</li>
-<li><strong>Head Coach</strong>: Manages the coaching staff and has ultimate authority on game-day strategy.</li>
+<li><strong>Head Coach</strong>: Manages the coaching staff and has ultimate authority on game-day strategy. This is a <strong>primary</strong> role for the playable character.</li>
 <li><strong>Offensive/Defensive/Special Teams Coordinators</strong>: Specialized coaches responsible for their respective phases of the game. Their schemes and play-calling tendencies influence team performance.</li>
-<li><strong>General Manager</strong>: Responsible for player contracts, trades, and drafting. This is a potential role for the playable character.</li>
-<li><strong>Team Owner</strong>: The ultimate authority for the team. Sets budgets, long-term goals, and can hire/fire the GM. This is another potential role for the playable character.</li>
+<li><strong>General Manager</strong>: Responsible for player contracts, trades, and drafting. This is a <strong>primary</strong> role for the playable character.</li>
+<li><strong>Team Owner</strong>: The ultimate authority for the team. Sets budgets, long-term goals, and can hire/fire the GM. This is a <strong>primary</strong> role for the playable character.</li>
+<li><strong>Commissioner/Observer</strong>: While not a direct management role, the player can choose to act as an uninvolved observer, watching the simulation unfold from a league-wide perspective without being tied to a specific team.</li>
 <li><strong>Scouts</strong>: Evaluate talent from other leagues and in the upcoming draft class.</li>
 <li><strong>Medical Staff</strong>: Manage player injuries and rehabilitation.</li>
 </ul>
