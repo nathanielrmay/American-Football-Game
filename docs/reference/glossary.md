@@ -31,7 +31,7 @@ This document defines key terms and concepts used throughout the project's plann
 ### D
 
 **Depth Chart**
-: A hierarchical list that ranks players on a team by position to determine who starts and who serves as a backup. Managed in the `team_roster` table via the `depth_chart_order` field.
+: A strategic document that arranges players from the team roster into specific positions and ranks (e.g., starter, backup) for a given situation or formation (like 'Shotgun Offense' or 'Nickel Defense'). A team can have multiple depth charts. Managed via the `depth_chart` and `depth_chart_position` tables.
 
 **Down**
 : A single attempt (a play) by the offense to advance the football. The offense gets a series of four downs to gain at least ten yards. If successful, they earn a "first down" and a new set of four downs.
@@ -59,6 +59,9 @@ This document defines key terms and concepts used throughout the project's plann
 ---
 
 ### L
+
+**Legacy Score**
+: The primary measurement of success in the game. It is a comprehensive score that combines a player's **Professional Legacy** (wins, championships, finances) with their **Personal Legacy** (relationships, family, health) to provide a holistic evaluation of their career and life.
 
 **Line of Scrimmage**
 : An imaginary line across the width of the field where the football is placed at the beginning of a play. Neither the offense nor the defense can cross this line until the play begins.

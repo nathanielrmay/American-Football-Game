@@ -1149,6 +1149,8 @@ CREATE TABLE play (
     play_number INTEGER NOT NULL,
     offense_team_id INTEGER NOT NULL,
     defense_team_id INTEGER NOT NULL,
+    offense_play_design_id INTEGER,
+    defense_play_design_id INTEGER,
     quarter INTEGER NOT NULL,
     down INTEGER,
     distance INTEGER,
@@ -1161,14 +1163,17 @@ CREATE TABLE play (
     created_date TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (game_id) REFERENCES game(id) ON DELETE CASCADE,
     FOREIGN KEY (offense_team_id) REFERENCES team(id) ON DELETE CASCADE,
-    FOREIGN KEY (defense_team_id) REFERENCES team(id) ON DELETE CASCADE
+    FOREIGN KEY (defense_team_id) REFERENCES team(id) ON DELETE CASCADE,
+    FOREIGN KEY (offense_play_design_id) REFERENCES play_design(id) ON DELETE SET NULL,
+    FOREIGN KEY (defense_play_design_id) REFERENCES play_design(id) ON DELETE SET NULL
 );
 ```
 
 #### Constraint/Relationship notes
 
 - **Primary Key**: `id` - Unique identifier for each play record.
-- **Foreign Key**: `game_id` - Links the play to the specific game it occurred in.
+- **Foreign Keys**: `game_id` links the play to the specific game it occurred in.
+- **Play Calling**: The `offense_play_design_id` and `defense_play_design_id` fields link to the specific plays called by each team's AI, creating a crucial record of strategic decisions versus outcomes. These are nullable to account for plays without a formal design (e.g., penalties before the snap).
 - **Play Log**: This table provides a complete, sequential record of a game's events, which can be used for box scores, recaps, and analysis.
 - `result_type`: A categorical description of the play (e.g., 'RUSH', 'PASS_COMPLETE', 'PASS_INCOMPLETE', 'PUNT', 'FIELD_GOAL_MADE', 'PENALTY').
 - `turnover_type`: Specifies the type of turnover, if any (e.g., 'INTERCEPTION', 'FUMBLE_LOST').
