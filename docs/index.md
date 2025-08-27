@@ -1,8 +1,8 @@
 # American Football Game
 
-### *Where the lives of your players are as important as their stats.*
+### *"The lives of your players are as important as their stats."*
 
-Imagine a text-based sports simulation where every season unfolds like a captivating novel. Our game uses advanced AI to generate dynamic play-by-play, craft unique athlete personalities that drives locker room drama and media firestorms, and even create vivid images for characters and pivotal game moments. It's not just about stats; it's about building your dynasty through an endlessly evolving, character-driven narrative. I'm not just simulating the sport; I'm simulating the lives of those who live it.
+Imagine a text-based sports simulation where every season unfolds like a captivating novel. This game uses advanced AI to generate dynamic play-by-play, craft unique athlete personalities that drives locker room drama and media firestorms, and even create vivid images for characters and pivotal game moments. It's not just about stats; it's about building your dynasty through an endlessly evolving, character-driven narrative. I'm not just simulating the sport; I'm simulating the lives of those who live it.
 
 These are the planning documents for a deep American football simulation and role-playing game. Players will manage teams across multiple tiered leagues, focusing on strategic playbook creation, statistical analysis, and narrative-driven interactions. The game uses AI to produce truly unique content that drives immersion, making each playthrough a distinct experience.
 

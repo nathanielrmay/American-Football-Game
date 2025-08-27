@@ -1,5 +1,5 @@
 nav:
-    - index.md
+    - Home: index.md
     - vision.md
     - inspirations.md
     - features.md
