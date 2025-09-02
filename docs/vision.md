@@ -1,6 +1,6 @@
 # Vision
 
-This document outlines the core vision for Football Sim, a game that blends deep football management with personal role-playing.
+This document outlines the core vision for American Football Sim, a game that blends deep football management with personal role-playing.
 
 ## The Playable Character
 

@@ -1,6 +1,6 @@
 # Feature Catalog
 
-This document uses a MoSCoW matrix to guide development priorities and describes key game systems in more detail.
+This document uses a [MoSCoW matrix](https://en.wikipedia.org/wiki/MoSCoW_method) to guide development priorities and describes key game systems in more detail.
 
 ## MoSCoW Prioritization
 
