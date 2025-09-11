@@ -199,8 +199,8 @@ The Country table represents different nations in the game world. Each country h
 
 ```sql
 CREATE TABLE country (
-    id INTEGER PRIMARY KEY,
-    world_id INTEGER NOT NULL,
+    pk INTEGER PRIMARY KEY,
+    world_pk INTEGER NOT NULL,
     name VARCHAR(100) NOT NULL UNIQUE,
     code VARCHAR(3) NOT NULL UNIQUE,
     wealth_level DECIMAL(5,2) NOT NULL DEFAULT 1.00,
@@ -217,8 +217,8 @@ CREATE TABLE country (
 
 #### Constraint/Relationship notes
 
-- **Primary Key**: `id` - Unique identifier for each country
-- **Foreign Key**: `world_id` - Links to the world this country exists in
+- **Primary Key**: `pk` - Unique identifier for each country
+- **Foreign Key**: `world_pk` - Links to the world this country exists in
 - **Unique Constraints**: `name` and `code` must be unique within a world
 - **Wealth Level**: Multiplier affecting economic activities (1.00 = baseline, >1.00 = wealthier, <1.00 = poorer)
 - **Temperature**: Average temperature in Fahrenheit, affects player preferences and costs
@@ -236,8 +236,8 @@ The State table represents states/provinces within countries. Each state has its
 
 ```sql
 CREATE TABLE state (
-    id INTEGER PRIMARY KEY,
-    country_id INTEGER NOT NULL,
+    pk INTEGER PRIMARY KEY,
+    country_pk INTEGER NOT NULL,
     name VARCHAR(100) NOT NULL,
     code VARCHAR(10) NOT NULL,
     wealth_modifier DECIMAL(3,2) NOT NULL DEFAULT 1.00,
@@ -256,8 +256,8 @@ CREATE TABLE state (
 
 #### Constraint/Relationship notes
 
-- **Primary Key**: `id` - Unique identifier for each state
-- **Foreign Key**: `country_id` - Links to the country this state belongs to
+- **Primary Key**: `pk` - Unique identifier for each state
+- **Foreign Key**: `country_pk` - Links to the country this state belongs to
 - **Unique Constraints**: `name` and `code` must be unique within each country
 - **Wealth Modifier**: Multiplier applied to country's wealth level (1.00 = same as country, >1.00 = wealthier than country average)
 - **Football Interest Modifier**: Applied to country's football interest (stacks with country modifier)
@@ -276,8 +276,8 @@ The City table represents cities within states. Each city has its own economic a
 
 ```sql
 CREATE TABLE city (
-    id INTEGER PRIMARY KEY,
-    state_id INTEGER NOT NULL,
+    pk INTEGER PRIMARY KEY,
+    state_pk INTEGER NOT NULL,
     name VARCHAR(100) NOT NULL,
     wealth_modifier DECIMAL(3,2) NOT NULL DEFAULT 1.00,
     football_interest_modifier DECIMAL(3,2) NOT NULL DEFAULT 1.00,
@@ -295,8 +295,8 @@ CREATE TABLE city (
 
 #### Constraint/Relationship notes
 
-- **Primary Key**: `id` - Unique identifier for each city
-- **Foreign Key**: `state_id` - Links to the state this city belongs to
+- **Primary Key**: `pk` - Unique identifier for each city
+- **Foreign Key**: `state_pk` - Links to the state this city belongs to
 - **Unique Constraints**: `name` must be unique within each state
 - **Wealth Modifier**: Multiplier applied to state's wealth level (1.00 = same as state, >1.00 = wealthier than state average)
 - **Football Interest Modifier**: Applied to state's football interest (stacks with country and state modifiers)
@@ -746,12 +746,12 @@ The Individual table is the base representation for any person in the game world
 ```sql
 
 CREATE TABLE individual (
-    id INTEGER PRIMARY KEY,
-    world_id INTEGER NOT NULL,
+    pk INTEGER PRIMARY KEY,
+    world_pk INTEGER NOT NULL,
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
     birth_date DATE NOT NULL,
-    home_city_id INTEGER NOT NULL,
+    home_city_pk INTEGER NOT NULL,
     desire_to_win INTEGER NOT NULL DEFAULT 50,
     greed INTEGER NOT NULL DEFAULT 50,
     demeanor INTEGER NOT NULL DEFAULT 50,
@@ -790,10 +790,10 @@ This table is a simple lookup that defines all valid player positions in the gam
 
 ```sql
 CREATE TABLE player_position (
-    id INTEGER PRIMARY KEY,
+    pk INTEGER PRIMARY KEY,
     name VARCHAR(50) NOT NULL UNIQUE,
     abbreviation VARCHAR(5) NOT NULL UNIQUE,
-    position_group VARCHAR(10) NOT NULL -- e.g., 'QB', 'RB', 'WR', 'OL', 'DL', 'LB', 'DB', 'K', 'P'
+    unit VARCHAR(10) NOT NULL -- e.g., 'QB', 'RB', 'WR', 'OL', 'DL', 'LB', 'DB', 'K', 'P'
 );
 ```
 
@@ -806,8 +806,8 @@ The Player table contains all athletic attributes and game-specific information 
 
 ```sql
 CREATE TABLE player (
-    id INTEGER PRIMARY KEY,
-    individual_id INTEGER NOT NULL UNIQUE,
+    pk INTEGER PRIMARY KEY,
+    individual_pk INTEGER NOT NULL UNIQUE,
     is_active BOOLEAN NOT NULL DEFAULT TRUE,
     status VARCHAR(50) NOT NULL DEFAULT 'free_agent',
     speed INTEGER NOT NULL,
@@ -836,8 +836,8 @@ CREATE TABLE player (
 
 ```sql
 CREATE TABLE player_stats_history (
-    id INTEGER PRIMARY KEY,
-    player_id INTEGER NOT NULL,
+    pk INTEGER PRIMARY KEY,
+    player_pk INTEGER NOT NULL,
     season_year INTEGER NOT NULL,
     level VARCHAR(50) NOT NULL,
     team_name VARCHAR(100),

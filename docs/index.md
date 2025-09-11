@@ -22,4 +22,3 @@ The following documents provide a suggested order for reading and understanding 
 - **[Glossary](notes/glossary.md)**: Glossary of key terms and concepts.
 - **[Research Notes](notes/research_notes.md)**: Useful research and findings.
 - **[Planning Notes](notes/planning_notes.md)**: Raw, unstructured planning notes.
-
